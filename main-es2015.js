@@ -640,6 +640,7 @@ let MapComponent = class MapComponent {
             this.onPharmacy(res);
         });
         this.curPos$.subscribe(res => {
+            this.curPos = res;
             this.map.setView(res, 15);
         });
         this.icons = {

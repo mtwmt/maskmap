@@ -1280,6 +1280,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             _this4.onPharmacy(res);
           });
           this.curPos$.subscribe(function (res) {
+            _this4.curPos = res;
+
             _this4.map.setView(res, 15);
           });
           this.icons = {
