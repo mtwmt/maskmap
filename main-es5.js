@@ -71,7 +71,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<!-- <button (click)=\"getPharmacy()\"></button> -->\n\n\n\n\n<div class=\"map-container\">\n  <div class=\"map-frame\">\n    <div id=\"map\" #maskmap></div>\n  </div>\n</div>\n\n\n";
+    __webpack_exports__["default"] = "<div class=\"map-container\">\n  <div class=\"map-frame\">\n    <div id=\"map\" #maskmap></div>\n  </div>\n</div>\n\n\n";
     /***/
   },
 
@@ -111,7 +111,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div class=\"search\" [ngClass]=\"{ 'active': isOpen }\">\n  <div class=\"search__header\">\n    <div class=\"search__header-title\">搜尋</div>\n    <div class=\"search__header-city\">\n      <select name=\"\" id=\"city\" (change)=\"onCityChange($event.target.value)\">\n        <option\n          *ngFor=\"let item of appStoreService.getCity$ | async\"\n          [(value)]=\"item.CityName\"\n          >{{ item.CityName }}</option\n        >\n      </select>\n    </div>\n    <div class=\"search__header-area\">\n      <select name=\"\" id=\"zone\" (change)=\"onAreaChange($event.target.value)\">\n        <option>請選擇</option>\n        <option\n          *ngFor=\"let item of appStoreService.getArea$ | async\"\n          [(value)]=\"item.AreaName\"\n          >{{ item.AreaName }}</option\n        >\n      </select>\n    </div>\n  </div>\n</div>\n<div class=\"search__body\">\n  <!-- <div class=\"search__body-title\">搜尋</div>\n    <div class=\"search__body-city\">\n      <select name=\"\" id=\"city\" (change)=\"onCityChange($event.target.value)\">\n        <option *ngFor=\"let item of appStoreService.getCity$ | async\" [(value)]=\"item.CityName\">{{ item.CityName }}</option>\n      </select>\n    </div>\n    <div class=\"search__body-area\">\n      <select name=\"\" id=\"zone\" (change)=\"onAreaChange($event.target.value)\">\n        <option>請選擇</option>\n        <option *ngFor=\"let item of appStoreService.getArea$ | async\" [(value)]=\"item.AreaName\">{{ item.AreaName }}</option>\n      </select>\n    </div>\n  </div> -->\n  <app-masklist></app-masklist>\n</div>\n";
+    __webpack_exports__["default"] = "<div class=\"search\" [ngClass]=\"{ 'active': isOpen }\">\n  <div class=\"search__header\">\n    <div class=\"search__header-title\">搜尋</div>\n    <div class=\"search__header-city\">\n      <select name=\"\" id=\"city\" (change)=\"onCityChange($event.target.value)\">\n        <option>請選擇</option>\n        <option\n          *ngFor=\"let item of appStoreService.getCity$ | async\"\n          [(value)]=\"item.CityName\"\n          >{{ item.CityName }}</option\n        >\n      </select>\n    </div>\n    <div class=\"search__header-area\">\n      <select name=\"\" id=\"zone\" (change)=\"onAreaChange($event.target.value)\">\n        <option>請選擇</option>\n        <option\n          *ngFor=\"let item of appStoreService.getArea$ | async\"\n          [(value)]=\"item.AreaName\"\n          >{{ item.AreaName }}</option\n        >\n      </select>\n    </div>\n  </div>\n</div>\n<div class=\"search__body\">\n  <!-- <div class=\"search__body-title\">搜尋</div>\n    <div class=\"search__body-city\">\n      <select name=\"\" id=\"city\" (change)=\"onCityChange($event.target.value)\">\n        <option *ngFor=\"let item of appStoreService.getCity$ | async\" [(value)]=\"item.CityName\">{{ item.CityName }}</option>\n      </select>\n    </div>\n    <div class=\"search__body-area\">\n      <select name=\"\" id=\"zone\" (change)=\"onAreaChange($event.target.value)\">\n        <option>請選擇</option>\n        <option *ngFor=\"let item of appStoreService.getArea$ | async\" [(value)]=\"item.AreaName\">{{ item.AreaName }}</option>\n      </select>\n    </div>\n  </div> -->\n  <app-masklist></app-masklist>\n</div>\n";
     /***/
   },
 
@@ -857,7 +857,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = ".hamburger {\n  display: block;\n  z-index: 10000;\n  position: absolute;\n  top: 1.25rem;\n  left: 1.25rem;\n  width: 50px;\n  height: 45px;\n  padding: 10px;\n  background: #e0e0e0;\n  border-radius: 0.25rem;\n}\n.hamburger span {\n  display: inline-block;\n  text-indent: -9999px;\n  -webkit-transition: 0.5s;\n  transition: 0.5s;\n  position: absolute;\n  display: block;\n  cursor: pointer;\n  width: 30px;\n  height: 5px;\n  background: #4F4F4F;\n  margin: 10px 0;\n}\n.hamburger span:before {\n  -webkit-transition: 0.5s;\n  transition: 0.5s;\n  content: \"\";\n  position: absolute;\n  top: -10px;\n  left: 0;\n  display: block;\n  width: 30px;\n  height: 5px;\n  background: #4F4F4F;\n}\n.hamburger span:after {\n  -webkit-transition: 0.5s;\n  transition: 0.5s;\n  content: \"\";\n  position: absolute;\n  top: 10px;\n  left: 0;\n  display: block;\n  width: 30px;\n  height: 5px;\n  background: #4F4F4F;\n}\n.hamburger.active span {\n  -webkit-transform: rotate(180deg);\n          transform: rotate(180deg);\n  background-color: transparent;\n}\n.hamburger.active span:before {\n  top: -0.625rem;\n  -webkit-transform: translateY(10.5px) rotate(45deg);\n          transform: translateY(10.5px) rotate(45deg);\n}\n.hamburger.active span:after {\n  top: -0.625rem;\n  -webkit-transform: translateY(10.5px) rotate(-45deg);\n          transform: translateY(10.5px) rotate(-45deg);\n}\n.maskmap {\n  display: -webkit-box;\n  display: flex;\n}\n.maskmap app-search {\n  position: relative;\n  z-index: 9999;\n  width: 300px;\n  height: 100vh;\n  background: #fff;\n}\n.maskmap app-map {\n  position: relative;\n  width: calc( 100% - 300px );\n}\n@media (max-width: 800px) {\n  .maskmap {\n    display: block;\n  }\n  .maskmap app-search {\n    position: absolute;\n    -webkit-transition: 0.5s;\n    transition: 0.5s;\n    -webkit-transform: translateX(-300px);\n            transform: translateX(-300px);\n  }\n  .maskmap app-search.active {\n    -webkit-transform: translateX(0px);\n            transform: translateX(0px);\n  }\n  .maskmap app-map {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvRDpcXFRoZUYyRV8yMDE5XFx3ZWVrMTAvc3JjXFxhcHBcXGFwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQTRDQTtFQUNFLGNBQUE7RUFDQSxjQUFBO0VBQ0Esa0JBQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtFQUNBLFdBQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtFQUNBLG1CQUFBO0VBQ0Esc0JBQUE7QUMzQ0Y7QUQ0Q0U7RUFDRSxxQkFBQTtFQUNBLG9CQUFBO0VBQ0Esd0JBQUE7RUFBQSxnQkFBQTtFQTdDRixrQkFBQTtFQUNBLGNBQUE7RUFDQSxlQUFBO0VBQ0EsV0EyQzhCO0VBMUM5QixXQUFBO0VBQ0EsbUJBeUNxQjtFQXhDckIsY0FBQTtBQ0lGO0FESEU7RUFDRSx3QkFBQTtFQUFBLGdCQUFBO0VBQ0EsV0FBQTtFQUNBLGtCQUFBO0VBQ0EsVUFBQTtFQUNBLE9BQUE7RUFDQSxjQUFBO0VBQ0EsV0FnQzRCO0VBL0I1QixXQUFBO0VBQ0EsbUJBOEJtQjtBQ3pCdkI7QURIRTtFQUNFLHdCQUFBO0VBQUEsZ0JBQUE7RUFDQSxXQUFBO0VBQ0Esa0JBQUE7RUFDQSxTQUFBO0VBQ0EsT0FBQTtFQUNBLGNBQUE7RUFDQSxXQXFCNEI7RUFwQjVCLFdBQUE7RUFDQSxtQkFtQm1CO0FDZHZCO0FEaUJJO0VBQ0UsaUNBQUE7VUFBQSx5QkFBQTtFQUNBLDZCQUFBO0FDZk47QURnQk07RUFDRSxjQUFBO0VBQ0EsbURBQUE7VUFBQSwyQ0FBQTtBQ2RSO0FEZ0JNO0VBQ0UsY0FBQTtFQUNBLG9EQUFBO1VBQUEsNENBQUE7QUNkUjtBRG9CQTtFQUNFLG9CQUFBO0VBQUEsYUFBQTtBQ2pCRjtBRGtCRTtFQUNFLGtCQUFBO0VBQ0EsYUFBQTtFQUNBLFlBQUE7RUFDQSxhQUFBO0VBQ0EsZ0JBQUE7QUNoQko7QUQwQkU7RUFDRSxrQkFBQTtFQUNBLDJCQUFBO0FDeEJKO0FEMEJFO0VBckJGO0lBc0JJLGNBQUE7RUN2QkY7RUR3QkU7SUFDRSxrQkFBQTtJQUNBLHdCQUFBO0lBQUEsZ0JBQUE7SUFDQSxxQ0FBQTtZQUFBLDZCQUFBO0VDdEJKO0VEdUJJO0lBQ0Usa0NBQUE7WUFBQSwwQkFBQTtFQ3JCTjtFRHdCRTtJQUNFLGtCQUFBO0lBQ0EsV0FBQTtJQUNBLFlBQUE7RUN0Qko7QUFDRiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIlxuQGltcG9ydCBcIi4uL2Fzc2V0cy9jb21tb25cIjtcblxuJWNsZWFyIHtcbiAgJjphZnRlciB7XG4gICAgY29udGVudDogXCJcIjtcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICBjbGVhcjogYm90aDtcbiAgfVxufVxuXG5cbkBtaXhpbiBoYW1idXJnZXIoJGNvbG9yLCAkaWNvblcpIHtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICBkaXNwbGF5OiBibG9jaztcbiAgY3Vyc29yOiBwb2ludGVyO1xuICB3aWR0aDogJGljb25XO1xuICBoZWlnaHQ6ICRpY29uVy82O1xuICBiYWNrZ3JvdW5kOiAkY29sb3I7XG4gIG1hcmdpbjogJGljb25XLzMgMDtcbiAgJjpiZWZvcmUge1xuICAgIHRyYW5zaXRpb246MC41cztcbiAgICBjb250ZW50OiAnJztcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAtJGljb25XLzM7XG4gICAgbGVmdDogMDtcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICB3aWR0aDogJGljb25XO1xuICAgIGhlaWdodDogJGljb25XLzY7XG4gICAgYmFja2dyb3VuZDogJGNvbG9yO1xuICB9XG4gICY6YWZ0ZXIge1xuICAgIHRyYW5zaXRpb246MC41cztcbiAgICBjb250ZW50OiAnJztcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAkaWNvblcvMztcbiAgICBsZWZ0OiAwO1xuICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgIHdpZHRoOiAkaWNvblc7XG4gICAgaGVpZ2h0OiAkaWNvblcvNjtcbiAgICBiYWNrZ3JvdW5kOiAkY29sb3I7XG4gIH1cbn1cblxuLmhhbWJ1cmdlciB7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICB6LWluZGV4OiAxMDAwMDtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB0b3A6IHJlbSgyMHB4KTtcbiAgbGVmdDogcmVtKDIwcHgpO1xuICB3aWR0aDogNTBweDtcbiAgaGVpZ2h0OiA0NXB4O1xuICBwYWRkaW5nOiAxMHB4O1xuICBiYWNrZ3JvdW5kOiAjZTBlMGUwO1xuICBib3JkZXItcmFkaXVzOiByZW0oNHB4KTtcbiAgc3BhbiB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICAgIHRleHQtaW5kZW50OiAtOTk5OXB4O1xuICAgIHRyYW5zaXRpb246IDAuNXM7XG4gICAgQGluY2x1ZGUgaGFtYnVyZ2VyKCM0RjRGNEYsIDMwcHgpO1xuICB9XG4gICYuYWN0aXZlIHtcbiAgICBzcGFuIHtcbiAgICAgIHRyYW5zZm9ybTogcm90YXRlKDE4MGRlZyk7XG4gICAgICBiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDtcbiAgICAgICY6YmVmb3JlIHtcbiAgICAgICAgdG9wOiByZW0oLTEwcHgpO1xuICAgICAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoMTAuNXB4KSByb3RhdGUoNDVkZWcpO1xuICAgICAgfVxuICAgICAgJjphZnRlciB7XG4gICAgICAgIHRvcDogcmVtKC0xMHB4KTtcbiAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDEwLjVweCkgcm90YXRlKC00NWRlZyk7XG4gICAgICB9XG4gICAgfVxuICB9XG59XG5cbi5tYXNrbWFwe1xuICBkaXNwbGF5OiBmbGV4O1xuICBhcHAtc2VhcmNoe1xuICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgICB6LWluZGV4OiA5OTk5O1xuICAgIHdpZHRoOiAzMDBweDtcbiAgICBoZWlnaHQ6IDEwMHZoO1xuICAgIGJhY2tncm91bmQ6ICNmZmY7XG4gIH1cbiAgLy8gYXBwLW1hc2tsaXN0e1xuICAvLyAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgLy8gICB6LWluZGV4OiA5OTk5O1xuICAvLyAgIGxlZnQ6IDA7XG4gIC8vICAgYm90dG9tOiAwO1xuICAvLyAgIHdpZHRoOiAxMDAlO1xuICAvLyAgIGhlaWdodDogMzAwcHg7XG4gIC8vIH1cbiAgYXBwLW1hcHtcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgd2lkdGg6IGNhbGMoIDEwMCUgLSAzMDBweCApO1xuICB9XG4gIEBtZWRpYSAobWF4LXdpZHRoOiA4MDBweCkge1xuICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgIGFwcC1zZWFyY2h7XG4gICAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgICB0cmFuc2l0aW9uOiAwLjVzO1xuICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVYKC0zMDBweCk7XG4gICAgICAmLmFjdGl2ZXtcbiAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVYKDBweCk7XG4gICAgICB9XG4gICAgfVxuICAgIGFwcC1tYXB7XG4gICAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgICB3aWR0aDogMTAwJTtcbiAgICAgIGhlaWdodDogMTAwJTtcbiAgICB9XG4gIH1cbn1cbiIsIi5oYW1idXJnZXIge1xuICBkaXNwbGF5OiBibG9jaztcbiAgei1pbmRleDogMTAwMDA7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiAxLjI1cmVtO1xuICBsZWZ0OiAxLjI1cmVtO1xuICB3aWR0aDogNTBweDtcbiAgaGVpZ2h0OiA0NXB4O1xuICBwYWRkaW5nOiAxMHB4O1xuICBiYWNrZ3JvdW5kOiAjZTBlMGUwO1xuICBib3JkZXItcmFkaXVzOiAwLjI1cmVtO1xufVxuLmhhbWJ1cmdlciBzcGFuIHtcbiAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB0ZXh0LWluZGVudDogLTk5OTlweDtcbiAgdHJhbnNpdGlvbjogMC41cztcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICBkaXNwbGF5OiBibG9jaztcbiAgY3Vyc29yOiBwb2ludGVyO1xuICB3aWR0aDogMzBweDtcbiAgaGVpZ2h0OiA1cHg7XG4gIGJhY2tncm91bmQ6ICM0RjRGNEY7XG4gIG1hcmdpbjogMTBweCAwO1xufVxuLmhhbWJ1cmdlciBzcGFuOmJlZm9yZSB7XG4gIHRyYW5zaXRpb246IDAuNXM7XG4gIGNvbnRlbnQ6IFwiXCI7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiAtMTBweDtcbiAgbGVmdDogMDtcbiAgZGlzcGxheTogYmxvY2s7XG4gIHdpZHRoOiAzMHB4O1xuICBoZWlnaHQ6IDVweDtcbiAgYmFja2dyb3VuZDogIzRGNEY0Rjtcbn1cbi5oYW1idXJnZXIgc3BhbjphZnRlciB7XG4gIHRyYW5zaXRpb246IDAuNXM7XG4gIGNvbnRlbnQ6IFwiXCI7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiAxMHB4O1xuICBsZWZ0OiAwO1xuICBkaXNwbGF5OiBibG9jaztcbiAgd2lkdGg6IDMwcHg7XG4gIGhlaWdodDogNXB4O1xuICBiYWNrZ3JvdW5kOiAjNEY0RjRGO1xufVxuLmhhbWJ1cmdlci5hY3RpdmUgc3BhbiB7XG4gIHRyYW5zZm9ybTogcm90YXRlKDE4MGRlZyk7XG4gIGJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50O1xufVxuLmhhbWJ1cmdlci5hY3RpdmUgc3BhbjpiZWZvcmUge1xuICB0b3A6IC0wLjYyNXJlbTtcbiAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDEwLjVweCkgcm90YXRlKDQ1ZGVnKTtcbn1cbi5oYW1idXJnZXIuYWN0aXZlIHNwYW46YWZ0ZXIge1xuICB0b3A6IC0wLjYyNXJlbTtcbiAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDEwLjVweCkgcm90YXRlKC00NWRlZyk7XG59XG5cbi5tYXNrbWFwIHtcbiAgZGlzcGxheTogZmxleDtcbn1cbi5tYXNrbWFwIGFwcC1zZWFyY2gge1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHotaW5kZXg6IDk5OTk7XG4gIHdpZHRoOiAzMDBweDtcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgYmFja2dyb3VuZDogI2ZmZjtcbn1cbi5tYXNrbWFwIGFwcC1tYXAge1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHdpZHRoOiBjYWxjKCAxMDAlIC0gMzAwcHggKTtcbn1cbkBtZWRpYSAobWF4LXdpZHRoOiA4MDBweCkge1xuICAubWFza21hcCB7XG4gICAgZGlzcGxheTogYmxvY2s7XG4gIH1cbiAgLm1hc2ttYXAgYXBwLXNlYXJjaCB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRyYW5zaXRpb246IDAuNXM7XG4gICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVYKC0zMDBweCk7XG4gIH1cbiAgLm1hc2ttYXAgYXBwLXNlYXJjaC5hY3RpdmUge1xuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlWCgwcHgpO1xuICB9XG4gIC5tYXNrbWFwIGFwcC1tYXAge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB3aWR0aDogMTAwJTtcbiAgICBoZWlnaHQ6IDEwMCU7XG4gIH1cbn0iXX0= */";
+    __webpack_exports__["default"] = ".hamburger {\n  display: none;\n  z-index: 10000;\n  position: absolute;\n  top: 1.25rem;\n  left: 1.25rem;\n  width: 50px;\n  height: 45px;\n  padding: 10px;\n  background: #e0e0e0;\n  border-radius: 0.25rem;\n}\n.hamburger span {\n  display: inline-block;\n  text-indent: -9999px;\n  -webkit-transition: 0.5s;\n  transition: 0.5s;\n  position: absolute;\n  display: block;\n  cursor: pointer;\n  width: 30px;\n  height: 5px;\n  background: #4F4F4F;\n  margin: 10px 0;\n}\n.hamburger span:before {\n  -webkit-transition: 0.5s;\n  transition: 0.5s;\n  content: \"\";\n  position: absolute;\n  top: -10px;\n  left: 0;\n  display: block;\n  width: 30px;\n  height: 5px;\n  background: #4F4F4F;\n}\n.hamburger span:after {\n  -webkit-transition: 0.5s;\n  transition: 0.5s;\n  content: \"\";\n  position: absolute;\n  top: 10px;\n  left: 0;\n  display: block;\n  width: 30px;\n  height: 5px;\n  background: #4F4F4F;\n}\n.hamburger.active span {\n  -webkit-transform: rotate(180deg);\n          transform: rotate(180deg);\n  background-color: transparent;\n}\n.hamburger.active span:before {\n  top: -0.625rem;\n  -webkit-transform: translateY(10.5px) rotate(45deg);\n          transform: translateY(10.5px) rotate(45deg);\n}\n.hamburger.active span:after {\n  top: -0.625rem;\n  -webkit-transform: translateY(10.5px) rotate(-45deg);\n          transform: translateY(10.5px) rotate(-45deg);\n}\n.maskmap {\n  display: -webkit-box;\n  display: flex;\n}\n.maskmap app-search {\n  position: relative;\n  z-index: 9999;\n  width: 300px;\n  height: 100vh;\n  background: #fff;\n}\n.maskmap app-map {\n  position: relative;\n  width: calc( 100% - 300px );\n}\n@media (max-width: 800px) {\n  .maskmap {\n    display: block;\n  }\n  .maskmap .hamburger {\n    display: block;\n  }\n  .maskmap app-search {\n    position: absolute;\n    -webkit-transition: 0.5s;\n    transition: 0.5s;\n    -webkit-transform: translateX(-300px);\n            transform: translateX(-300px);\n  }\n  .maskmap app-search.active {\n    -webkit-transform: translateX(0px);\n            transform: translateX(0px);\n  }\n  .maskmap app-map {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvRDpcXFRoZUYyRV8yMDE5XFx3ZWVrMTAvc3JjXFxhcHBcXGFwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQTRDQTtFQUNFLGFBQUE7RUFDQSxjQUFBO0VBQ0Esa0JBQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtFQUNBLFdBQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtFQUNBLG1CQUFBO0VBQ0Esc0JBQUE7QUMzQ0Y7QUQ0Q0U7RUFDRSxxQkFBQTtFQUNBLG9CQUFBO0VBQ0Esd0JBQUE7RUFBQSxnQkFBQTtFQTdDRixrQkFBQTtFQUNBLGNBQUE7RUFDQSxlQUFBO0VBQ0EsV0EyQzhCO0VBMUM5QixXQUFBO0VBQ0EsbUJBeUNxQjtFQXhDckIsY0FBQTtBQ0lGO0FESEU7RUFDRSx3QkFBQTtFQUFBLGdCQUFBO0VBQ0EsV0FBQTtFQUNBLGtCQUFBO0VBQ0EsVUFBQTtFQUNBLE9BQUE7RUFDQSxjQUFBO0VBQ0EsV0FnQzRCO0VBL0I1QixXQUFBO0VBQ0EsbUJBOEJtQjtBQ3pCdkI7QURIRTtFQUNFLHdCQUFBO0VBQUEsZ0JBQUE7RUFDQSxXQUFBO0VBQ0Esa0JBQUE7RUFDQSxTQUFBO0VBQ0EsT0FBQTtFQUNBLGNBQUE7RUFDQSxXQXFCNEI7RUFwQjVCLFdBQUE7RUFDQSxtQkFtQm1CO0FDZHZCO0FEaUJJO0VBQ0UsaUNBQUE7VUFBQSx5QkFBQTtFQUNBLDZCQUFBO0FDZk47QURnQk07RUFDRSxjQUFBO0VBQ0EsbURBQUE7VUFBQSwyQ0FBQTtBQ2RSO0FEZ0JNO0VBQ0UsY0FBQTtFQUNBLG9EQUFBO1VBQUEsNENBQUE7QUNkUjtBRG9CQTtFQUNFLG9CQUFBO0VBQUEsYUFBQTtBQ2pCRjtBRGtCRTtFQUNFLGtCQUFBO0VBQ0EsYUFBQTtFQUNBLFlBQUE7RUFDQSxhQUFBO0VBQ0EsZ0JBQUE7QUNoQko7QUQwQkU7RUFDRSxrQkFBQTtFQUNBLDJCQUFBO0FDeEJKO0FEMEJFO0VBckJGO0lBc0JJLGNBQUE7RUN2QkY7RUR3QkU7SUFDRSxjQUFBO0VDdEJKO0VEd0JFO0lBQ0Usa0JBQUE7SUFDQSx3QkFBQTtJQUFBLGdCQUFBO0lBQ0EscUNBQUE7WUFBQSw2QkFBQTtFQ3RCSjtFRHVCSTtJQUNFLGtDQUFBO1lBQUEsMEJBQUE7RUNyQk47RUR3QkU7SUFDRSxrQkFBQTtJQUNBLFdBQUE7SUFDQSxZQUFBO0VDdEJKO0FBQ0YiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJcbkBpbXBvcnQgXCIuLi9hc3NldHMvY29tbW9uXCI7XG5cbiVjbGVhciB7XG4gICY6YWZ0ZXIge1xuICAgIGNvbnRlbnQ6IFwiXCI7XG4gICAgZGlzcGxheTogYmxvY2s7XG4gICAgY2xlYXI6IGJvdGg7XG4gIH1cbn1cblxuXG5AbWl4aW4gaGFtYnVyZ2VyKCRjb2xvciwgJGljb25XKSB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgZGlzcGxheTogYmxvY2s7XG4gIGN1cnNvcjogcG9pbnRlcjtcbiAgd2lkdGg6ICRpY29uVztcbiAgaGVpZ2h0OiAkaWNvblcvNjtcbiAgYmFja2dyb3VuZDogJGNvbG9yO1xuICBtYXJnaW46ICRpY29uVy8zIDA7XG4gICY6YmVmb3JlIHtcbiAgICB0cmFuc2l0aW9uOjAuNXM7XG4gICAgY29udGVudDogJyc7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRvcDogLSRpY29uVy8zO1xuICAgIGxlZnQ6IDA7XG4gICAgZGlzcGxheTogYmxvY2s7XG4gICAgd2lkdGg6ICRpY29uVztcbiAgICBoZWlnaHQ6ICRpY29uVy82O1xuICAgIGJhY2tncm91bmQ6ICRjb2xvcjtcbiAgfVxuICAmOmFmdGVyIHtcbiAgICB0cmFuc2l0aW9uOjAuNXM7XG4gICAgY29udGVudDogJyc7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRvcDogJGljb25XLzM7XG4gICAgbGVmdDogMDtcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICB3aWR0aDogJGljb25XO1xuICAgIGhlaWdodDogJGljb25XLzY7XG4gICAgYmFja2dyb3VuZDogJGNvbG9yO1xuICB9XG59XG5cbi5oYW1idXJnZXIge1xuICBkaXNwbGF5OiBub25lO1xuICB6LWluZGV4OiAxMDAwMDtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB0b3A6IHJlbSgyMHB4KTtcbiAgbGVmdDogcmVtKDIwcHgpO1xuICB3aWR0aDogNTBweDtcbiAgaGVpZ2h0OiA0NXB4O1xuICBwYWRkaW5nOiAxMHB4O1xuICBiYWNrZ3JvdW5kOiAjZTBlMGUwO1xuICBib3JkZXItcmFkaXVzOiByZW0oNHB4KTtcbiAgc3BhbiB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICAgIHRleHQtaW5kZW50OiAtOTk5OXB4O1xuICAgIHRyYW5zaXRpb246IDAuNXM7XG4gICAgQGluY2x1ZGUgaGFtYnVyZ2VyKCM0RjRGNEYsIDMwcHgpO1xuICB9XG4gICYuYWN0aXZlIHtcbiAgICBzcGFuIHtcbiAgICAgIHRyYW5zZm9ybTogcm90YXRlKDE4MGRlZyk7XG4gICAgICBiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDtcbiAgICAgICY6YmVmb3JlIHtcbiAgICAgICAgdG9wOiByZW0oLTEwcHgpO1xuICAgICAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoMTAuNXB4KSByb3RhdGUoNDVkZWcpO1xuICAgICAgfVxuICAgICAgJjphZnRlciB7XG4gICAgICAgIHRvcDogcmVtKC0xMHB4KTtcbiAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDEwLjVweCkgcm90YXRlKC00NWRlZyk7XG4gICAgICB9XG4gICAgfVxuICB9XG59XG5cbi5tYXNrbWFwe1xuICBkaXNwbGF5OiBmbGV4O1xuICBhcHAtc2VhcmNoe1xuICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgICB6LWluZGV4OiA5OTk5O1xuICAgIHdpZHRoOiAzMDBweDtcbiAgICBoZWlnaHQ6IDEwMHZoO1xuICAgIGJhY2tncm91bmQ6ICNmZmY7XG4gIH1cbiAgLy8gYXBwLW1hc2tsaXN0e1xuICAvLyAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgLy8gICB6LWluZGV4OiA5OTk5O1xuICAvLyAgIGxlZnQ6IDA7XG4gIC8vICAgYm90dG9tOiAwO1xuICAvLyAgIHdpZHRoOiAxMDAlO1xuICAvLyAgIGhlaWdodDogMzAwcHg7XG4gIC8vIH1cbiAgYXBwLW1hcHtcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgd2lkdGg6IGNhbGMoIDEwMCUgLSAzMDBweCApO1xuICB9XG4gIEBtZWRpYSAobWF4LXdpZHRoOiA4MDBweCkge1xuICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgIC5oYW1idXJnZXIge1xuICAgICAgZGlzcGxheTogYmxvY2s7XG4gICAgfVxuICAgIGFwcC1zZWFyY2h7XG4gICAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgICB0cmFuc2l0aW9uOiAwLjVzO1xuICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVYKC0zMDBweCk7XG4gICAgICAmLmFjdGl2ZXtcbiAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVYKDBweCk7XG4gICAgICB9XG4gICAgfVxuICAgIGFwcC1tYXB7XG4gICAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgICB3aWR0aDogMTAwJTtcbiAgICAgIGhlaWdodDogMTAwJTtcbiAgICB9XG4gIH1cbn1cbiIsIi5oYW1idXJnZXIge1xuICBkaXNwbGF5OiBub25lO1xuICB6LWluZGV4OiAxMDAwMDtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB0b3A6IDEuMjVyZW07XG4gIGxlZnQ6IDEuMjVyZW07XG4gIHdpZHRoOiA1MHB4O1xuICBoZWlnaHQ6IDQ1cHg7XG4gIHBhZGRpbmc6IDEwcHg7XG4gIGJhY2tncm91bmQ6ICNlMGUwZTA7XG4gIGJvcmRlci1yYWRpdXM6IDAuMjVyZW07XG59XG4uaGFtYnVyZ2VyIHNwYW4ge1xuICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gIHRleHQtaW5kZW50OiAtOTk5OXB4O1xuICB0cmFuc2l0aW9uOiAwLjVzO1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICBjdXJzb3I6IHBvaW50ZXI7XG4gIHdpZHRoOiAzMHB4O1xuICBoZWlnaHQ6IDVweDtcbiAgYmFja2dyb3VuZDogIzRGNEY0RjtcbiAgbWFyZ2luOiAxMHB4IDA7XG59XG4uaGFtYnVyZ2VyIHNwYW46YmVmb3JlIHtcbiAgdHJhbnNpdGlvbjogMC41cztcbiAgY29udGVudDogXCJcIjtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB0b3A6IC0xMHB4O1xuICBsZWZ0OiAwO1xuICBkaXNwbGF5OiBibG9jaztcbiAgd2lkdGg6IDMwcHg7XG4gIGhlaWdodDogNXB4O1xuICBiYWNrZ3JvdW5kOiAjNEY0RjRGO1xufVxuLmhhbWJ1cmdlciBzcGFuOmFmdGVyIHtcbiAgdHJhbnNpdGlvbjogMC41cztcbiAgY29udGVudDogXCJcIjtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB0b3A6IDEwcHg7XG4gIGxlZnQ6IDA7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICB3aWR0aDogMzBweDtcbiAgaGVpZ2h0OiA1cHg7XG4gIGJhY2tncm91bmQ6ICM0RjRGNEY7XG59XG4uaGFtYnVyZ2VyLmFjdGl2ZSBzcGFuIHtcbiAgdHJhbnNmb3JtOiByb3RhdGUoMTgwZGVnKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7XG59XG4uaGFtYnVyZ2VyLmFjdGl2ZSBzcGFuOmJlZm9yZSB7XG4gIHRvcDogLTAuNjI1cmVtO1xuICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoMTAuNXB4KSByb3RhdGUoNDVkZWcpO1xufVxuLmhhbWJ1cmdlci5hY3RpdmUgc3BhbjphZnRlciB7XG4gIHRvcDogLTAuNjI1cmVtO1xuICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoMTAuNXB4KSByb3RhdGUoLTQ1ZGVnKTtcbn1cblxuLm1hc2ttYXAge1xuICBkaXNwbGF5OiBmbGV4O1xufVxuLm1hc2ttYXAgYXBwLXNlYXJjaCB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgei1pbmRleDogOTk5OTtcbiAgd2lkdGg6IDMwMHB4O1xuICBoZWlnaHQ6IDEwMHZoO1xuICBiYWNrZ3JvdW5kOiAjZmZmO1xufVxuLm1hc2ttYXAgYXBwLW1hcCB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgd2lkdGg6IGNhbGMoIDEwMCUgLSAzMDBweCApO1xufVxuQG1lZGlhIChtYXgtd2lkdGg6IDgwMHB4KSB7XG4gIC5tYXNrbWFwIHtcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgfVxuICAubWFza21hcCAuaGFtYnVyZ2VyIHtcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgfVxuICAubWFza21hcCBhcHAtc2VhcmNoIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdHJhbnNpdGlvbjogMC41cztcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoLTMwMHB4KTtcbiAgfVxuICAubWFza21hcCBhcHAtc2VhcmNoLmFjdGl2ZSB7XG4gICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVYKDBweCk7XG4gIH1cbiAgLm1hc2ttYXAgYXBwLW1hcCB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHdpZHRoOiAxMDAlO1xuICAgIGhlaWdodDogMTAwJTtcbiAgfVxufSJdfQ== */";
     /***/
   },
 
@@ -1224,6 +1224,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var src_environments_environment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
     /*! src/environments/environment */
     "./src/environments/environment.ts");
+    /* harmony import */
+
+
+    var rxjs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
+    /*! rxjs */
+    "./node_modules/rxjs/_esm2015/index.js");
 
     var MapComponent =
     /*#__PURE__*/
@@ -1237,7 +1243,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.appStoreService = appStoreService; // @ViewChild('maskmap', { static: true }) chartElement: ElementRef;
 
         this.assetsUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_7__["environment"].assetsUrl;
-        this.markers = [];
+        this.curPos$ = new rxjs__WEBPACK_IMPORTED_MODULE_8__["Subject"]();
+        this.getPosition();
         this.appStoreService.getPharmacy$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (res) {
           if (!res) {
             return;
@@ -1263,13 +1270,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.appStoreService.getCurInfo$.subscribe(function (res) {
             _this4.onPharmacy(res);
           });
-          this.map = leaflet__WEBPACK_IMPORTED_MODULE_5__["map"]('map', {
-            center: [25.050063, 121.544742],
-            zoom: 16,
-            zoomControl: false,
-            layers: [leaflet__WEBPACK_IMPORTED_MODULE_5__["tileLayer"]('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            })]
+          this.curPos$.subscribe(function (res) {
+            _this4.curPos = res;
+            console.log('curPos', res);
+            _this4.map = leaflet__WEBPACK_IMPORTED_MODULE_5__["map"]('map', {
+              center: _this4.curPos,
+              zoom: 14,
+              zoomControl: false,
+              layers: [leaflet__WEBPACK_IMPORTED_MODULE_5__["tileLayer"]('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/">Mandy</a>'
+              })]
+            });
           });
           this.icons = {
             red: this.customIcon('red'),
@@ -1283,13 +1294,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           };
         }
       }, {
+        key: "ngOnDestroy",
+        value: function ngOnDestroy() {
+          this.curPos$.unsubscribe();
+        }
+      }, {
         key: "renderMap",
         value: function renderMap(list, cur) {
           var _this5 = this;
 
-          // console.log('asdad', list, cur);
-          this.group = new leaflet__WEBPACK_IMPORTED_MODULE_5__["MarkerClusterGroup"]().addTo(this.map); // this.markers = [];
-
+          this.group = new leaflet__WEBPACK_IMPORTED_MODULE_5__["MarkerClusterGroup"]().addTo(this.map);
           list.map(function (e, i) {
             _this5.addMarker(e);
           });
@@ -1298,7 +1312,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "onPharmacy",
         value: function onPharmacy(info) {
-          this.map.setView(info.coordinates, 18).closePopup();
+          this.map.setView(info.coordinates, 16).closePopup();
 
           if (this.prevPoint) {
             this.map.removeLayer(this.prevPoint);
@@ -1309,12 +1323,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }).addTo(this.map).bindPopup(this.customPopup(info)).openPopup();
         }
       }, {
-        key: "ngAfterViewInit",
-        value: function ngAfterViewInit() {}
-      }, {
         key: "addMarker",
         value: function addMarker(info) {
-          // console.log('addMarker', info)
           var marker = leaflet__WEBPACK_IMPORTED_MODULE_5__["marker"](info.coordinates, {
             icon: this.icons.grey
           }).bindPopup(this.customPopup(info));
@@ -1324,7 +1334,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "customPopup",
         value: function customPopup(info) {
           // console.log('customPopup', info)
-          return "\n      <div class=\"customPopup\">\n        <div class=\"customPopup__title\">".concat(info.name, "</div>\n        <div class=\"customPopup__block-left\">\n          <div class=\"customPopup__addr\">").concat(info.address, "</div>\n          <div class=\"customPopup__note\">").concat(info.note, "</div>\n          <div class=\"customPopup__phone\">").concat(info.phone, "</div>\n        </div>\n        <div class=\"customPopup__block-right\">\n          <div class=\"customPopup__block-flex\">\n            <div class=\"customPopup__child\">\n              <img src=\"").concat(this.assetsUrl, "/child.svg\" />\n              <p>").concat(info.mask_child, "</p>\n            </div>\n            <div class=\"customPopup__adult\">\n              <img src=\"").concat(this.assetsUrl, "/adult.svg\" />\n              <p>").concat(info.mask_adult, "</p>\n            </div>\n          </div>\n          <a href=\"tel:").concat(info.phone, "\" class=\"customPopup__tel\">\n            <img src=\"").concat(this.assetsUrl, "/tel.svg\" />\n          </a>\n        </div>\n        <a href=\"https://www.google.com/maps/dir/").concat(info.coordinates[0], ",").concat(info.coordinates[1], "/\" class=\"customPopup__google\" target=\"_blank\">\n          <img src=\"").concat(this.assetsUrl, "/vecotr.svg\" />\u898F\u5283\u8DEF\u7DDA\n        </a>\n      </div>\n    ");
+          return "\n      <div class=\"customPopup\">\n        <div class=\"customPopup__title\">".concat(info.name, "</div>\n        <div class=\"customPopup__block-left\">\n          <div class=\"customPopup__addr\">").concat(info.address, "</div>\n          <div class=\"customPopup__note\">").concat(info.note, "</div>\n          <div class=\"customPopup__phone\">").concat(info.phone, "</div>\n        </div>\n        <div class=\"customPopup__block-right\">\n          <div class=\"customPopup__block-flex\">\n            <div class=\"customPopup__child\">\n              <img src=\"").concat(this.assetsUrl, "/child.svg\" />\n              <p>").concat(info.mask_child, "</p>\n            </div>\n            <div class=\"customPopup__adult\">\n              <img src=\"").concat(this.assetsUrl, "/adult.svg\" />\n              <p>").concat(info.mask_adult, "</p>\n            </div>\n          </div>\n          <a href=\"tel:").concat(info.phone, "\" class=\"customPopup__tel\">\n            <img src=\"").concat(this.assetsUrl, "/tel.svg\" />\n          </a>\n        </div>\n        <a href=\"https://www.google.com/maps/dir/").concat(this.curPos[0], ",").concat(this.curPos[1], "/").concat(info.coordinates[0], ",").concat(info.coordinates[1], "\" class=\"customPopup__google\" target=\"_blank\">\n          <img src=\"").concat(this.assetsUrl, "/vecotr.svg\" />\u898F\u5283\u8DEF\u7DDA\n        </a>\n      </div>\n    ");
         }
       }, {
         key: "customIcon",
@@ -1336,6 +1346,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             iconAnchor: [12, 41],
             popupAnchor: [1, -34],
             shadowSize: [41, 41]
+          });
+        }
+      }, {
+        key: "getPosition",
+        value: function getPosition() {
+          var _this6 = this;
+
+          navigator.geolocation.getCurrentPosition(function (data) {
+            var latitude = data.coords.latitude;
+            var longitude = data.coords.longitude;
+
+            _this6.curPos$.next([latitude, longitude]);
           });
         }
       }]);
@@ -1575,14 +1597,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _createClass(SearchComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this6 = this;
+          var _this7 = this;
 
           Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["combineLatest"])(this.appService.fetchTaiwanCity(), this.appService.fetchPharmacy()).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["map"])(function (res) {
             return [res[0], res[1].features];
           })).subscribe(function (res) {
-            _this6.getTaiwanCity = res[0];
+            // console.log('alllist', res[1] )
+            _this7.getTaiwanCity = res[0]; // this.onCityChange('臺北市');
 
-            _this6.onCityChange('臺北市');
+            _this7.appStoreService.getPharmacy$.next(res[1]);
           });
         }
       }, {
