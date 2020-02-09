@@ -1237,7 +1237,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             gold: this.customIcon('gold'),
             grey: this.customIcon('grey')
           };
-          console.log(3423, this.icons.red);
         }
       }, {
         key: "renderMap",

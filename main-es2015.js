@@ -624,7 +624,6 @@ let MapComponent = class MapComponent {
             gold: this.customIcon('gold'),
             grey: this.customIcon('grey'),
         };
-        console.log(3423, this.icons.red);
     }
     renderMap(list, cur) {
         console.log('asdad', list, cur);
