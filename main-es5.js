@@ -1243,7 +1243,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.appStoreService = appStoreService; // @ViewChild('maskmap', { static: true }) chartElement: ElementRef;
 
         this.assetsUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_7__["environment"].assetsUrl;
-        this.curPos$ = new rxjs__WEBPACK_IMPORTED_MODULE_8__["Subject"]();
+        this.curPos = [25.0032999, 121.5540404];
+        this.curPos$ = new rxjs__WEBPACK_IMPORTED_MODULE_8__["BehaviorSubject"](this.curPos);
         this.getPosition();
         this.appStoreService.getPharmacy$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (res) {
           if (!res) {
@@ -1267,20 +1268,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function ngOnInit() {
           var _this4 = this;
 
+          this.map = leaflet__WEBPACK_IMPORTED_MODULE_5__["map"]('map', {
+            center: [25.0032999, 121.5540404],
+            zoom: 15,
+            zoomControl: false,
+            layers: [leaflet__WEBPACK_IMPORTED_MODULE_5__["tileLayer"]('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/">Mandy</a>'
+            })]
+          });
           this.appStoreService.getCurInfo$.subscribe(function (res) {
             _this4.onPharmacy(res);
           });
           this.curPos$.subscribe(function (res) {
-            _this4.curPos = res;
-            console.log('curPos', res);
-            _this4.map = leaflet__WEBPACK_IMPORTED_MODULE_5__["map"]('map', {
-              center: _this4.curPos,
-              zoom: 14,
-              zoomControl: false,
-              layers: [leaflet__WEBPACK_IMPORTED_MODULE_5__["tileLayer"]('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/">Mandy</a>'
-              })]
-            });
+            _this4.map.setView(res, 15);
           });
           this.icons = {
             red: this.customIcon('red'),

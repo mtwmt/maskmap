@@ -613,7 +613,8 @@ let MapComponent = class MapComponent {
         this.appStoreService = appStoreService;
         // @ViewChild('maskmap', { static: true }) chartElement: ElementRef;
         this.assetsUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_7__["environment"].assetsUrl;
-        this.curPos$ = new rxjs__WEBPACK_IMPORTED_MODULE_8__["Subject"]();
+        this.curPos = [25.0032999, 121.5540404];
+        this.curPos$ = new rxjs__WEBPACK_IMPORTED_MODULE_8__["BehaviorSubject"](this.curPos);
         this.getPosition();
         this.appStoreService.getPharmacy$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(res => {
             if (!res) {
@@ -629,18 +630,17 @@ let MapComponent = class MapComponent {
         });
     }
     ngOnInit() {
+        this.map = leaflet__WEBPACK_IMPORTED_MODULE_5__["map"]('map', {
+            center: [25.0032999, 121.5540404],
+            zoom: 15,
+            zoomControl: false,
+            layers: [leaflet__WEBPACK_IMPORTED_MODULE_5__["tileLayer"]('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/">Mandy</a>' })]
+        });
         this.appStoreService.getCurInfo$.subscribe(res => {
             this.onPharmacy(res);
         });
         this.curPos$.subscribe(res => {
-            this.curPos = res;
-            console.log('curPos', res);
-            this.map = leaflet__WEBPACK_IMPORTED_MODULE_5__["map"]('map', {
-                center: this.curPos,
-                zoom: 14,
-                zoomControl: false,
-                layers: [leaflet__WEBPACK_IMPORTED_MODULE_5__["tileLayer"]('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/">Mandy</a>' })]
-            });
+            this.map.setView(res, 15);
         });
         this.icons = {
             red: this.customIcon('red'),
