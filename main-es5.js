@@ -91,7 +91,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div class=\"pharmacy\">\n  <div\n    class=\"pharmacy__wrap\"\n    *ngFor=\"let item of appStoreService.getPharmacy$ | async\"\n    (click)=\"setInfo(item.geometry, item.properties)\"\n  >\n    <div class=\"pharmacy__title\">{{ item.properties.name }}</div>\n    <div class=\"pharmacy__block-left\">\n      <div class=\"pharmacy__addr\">{{ item.properties.address }}</div>\n      <div class=\"pharmacy__phone\">{{ item.properties.phone }}</div>\n    </div>\n    <div class=\"pharmacy__block-right\">\n      <div class=\"pharmacy__child\">\n        <img src=\"../../assets/child.svg\" />\n        <p>{{ item.properties.mask_child }}</p>\n      </div>\n      <div class=\"pharmacy__adult\">\n        <img src=\"../../assets/adult.svg\" />\n        <p>{{ item.properties.mask_adult }}</p>\n      </div>\n    </div>\n  </div>\n</div>\n";
+    __webpack_exports__["default"] = "<div class=\"pharmacy\">\n  <div\n    class=\"pharmacy__wrap\"\n    *ngFor=\"let item of appStoreService.getPharmacy$ | async\"\n    (click)=\"setInfo(item.geometry, item.properties)\"\n  >\n    <div class=\"pharmacy__title\">{{ item.properties.name }}</div>\n    <div class=\"pharmacy__block-left\">\n      <div class=\"pharmacy__addr\">{{ item.properties.address }}</div>\n      <div class=\"pharmacy__phone\">{{ item.properties.phone }}</div>\n    </div>\n    <div class=\"pharmacy__block-right\">\n      <div class=\"pharmacy__child\">\n      <img src= \"{{assetsUrl}}/child.svg\"/>\n        <p>{{ item.properties.mask_child }}</p>\n      </div>\n      <div class=\"pharmacy__adult\">\n        <img src=\"{{assetsUrl}}/adult.svg\" />\n        <p>{{ item.properties.mask_adult }}</p>\n      </div>\n    </div>\n  </div>\n</div>\n";
     /***/
   },
 
@@ -710,8 +710,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
     /*! @angular/router */
     "./node_modules/@angular/router/fesm2015/router.js");
+    /* harmony import */
 
-    var routes = [];
+
+    var _app_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! ./app.component */
+    "./src/app/app.component.ts");
+
+    var routes = [{
+      path: '',
+      redirectTo: '/maskmap',
+      pathMatch: 'full'
+    }, {
+      path: 'maskmap',
+      component: _app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]
+    }];
 
     var AppRoutingModule = function AppRoutingModule() {
       _classCallCheck(this, AppRoutingModule);
@@ -1041,6 +1054,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _app_store_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
     /*! ./app-store.service */
     "./src/app/app-store.service.ts");
+    /* harmony import */
+
+
+    var src_environments_environment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    /*! src/environments/environment */
+    "./src/environments/environment.ts");
 
     var AppService =
     /*#__PURE__*/
@@ -1050,6 +1069,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         this.httpClient = httpClient;
         this.appStoreService = appStoreService;
+        this.assetsUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_5__["environment"].assetsUrl;
         this.url = 'https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json?fbclid=IwAR05WGCvc-9Ebzk6FfkBra5PKPTEh9m8EudIpKp7HRJ-woZvl9BsGMrYiRs';
       }
 
@@ -1058,7 +1078,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function fetchTaiwanCity(city) {
           var _this = this;
 
-          return this.httpClient.get('../assets/citycounty.json').pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(function (res) {
+          return this.httpClient.get("".concat(this.assetsUrl, "/citycounty.json")).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(function (res) {
             _this.appStoreService.setCity(res);
           }));
         }
@@ -1183,6 +1203,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var leaflet_markercluster__WEBPACK_IMPORTED_MODULE_6___default =
     /*#__PURE__*/
     __webpack_require__.n(leaflet_markercluster__WEBPACK_IMPORTED_MODULE_6__);
+    /* harmony import */
+
+
+    var src_environments_environment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+    /*! src/environments/environment */
+    "./src/environments/environment.ts");
 
     var MapComponent =
     /*#__PURE__*/
@@ -1193,7 +1219,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         _classCallCheck(this, MapComponent);
 
         this.appService = appService;
-        this.appStoreService = appStoreService;
+        this.appStoreService = appStoreService; // @ViewChild('maskmap', { static: true }) chartElement: ElementRef;
+
+        this.assetsUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_7__["environment"].assetsUrl;
         this.markers = [];
         this.appStoreService.getPharmacy$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (res) {
           if (!res) {
@@ -1280,7 +1308,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "customPopup",
         value: function customPopup(info) {
           // console.log('customPopup', info)
-          return "\n      <div class=\"customPopup\">\n        <div class=\"customPopup__title\">".concat(info.name, "</div>\n        <div class=\"customPopup__block-left\">\n          <div class=\"customPopup__addr\">").concat(info.address, "</div>\n          <div class=\"customPopup__note\">").concat(info.note, "</div>\n          <div class=\"customPopup__phone\">").concat(info.phone, "</div>\n        </div>\n        <div class=\"customPopup__block-right\">\n          <div class=\"customPopup__block-flex\">\n            <div class=\"customPopup__child\">\n              <img src=\"../../assets/child.svg\" />\n              <p>").concat(info.mask_child, "</p>\n            </div>\n            <div class=\"customPopup__adult\">\n              <img src=\"../../assets/adult.svg\" />\n              <p>").concat(info.mask_adult, "</p>\n            </div>\n          </div>\n          <a href=\"tel:").concat(info.phone, "\" class=\"customPopup__tel\">\n            <img src=\"../../assets/tel.svg\" />\n          </a>\n        </div>\n        <a href=\"https://www.google.com/maps/dir/").concat(info.coordinates[0], ",").concat(info.coordinates[1], "/\" class=\"customPopup__google\" target=\"_blank\">\n          <img src=\"../../assets/vecotr.svg\" />\u898F\u5283\u8DEF\u7DDA\n        </a>\n      </div>\n    ");
+          return "\n      <div class=\"customPopup\">\n        <div class=\"customPopup__title\">".concat(info.name, "</div>\n        <div class=\"customPopup__block-left\">\n          <div class=\"customPopup__addr\">").concat(info.address, "</div>\n          <div class=\"customPopup__note\">").concat(info.note, "</div>\n          <div class=\"customPopup__phone\">").concat(info.phone, "</div>\n        </div>\n        <div class=\"customPopup__block-right\">\n          <div class=\"customPopup__block-flex\">\n            <div class=\"customPopup__child\">\n              <img src=\"").concat(this.assetsUrl, "/child.svg\" />\n              <p>").concat(info.mask_child, "</p>\n            </div>\n            <div class=\"customPopup__adult\">\n              <img src=\"").concat(this.assetsUrl, "/adult.svg\" />\n              <p>").concat(info.mask_adult, "</p>\n            </div>\n          </div>\n          <a href=\"tel:").concat(info.phone, "\" class=\"customPopup__tel\">\n            <img src=\"").concat(this.assetsUrl, "/tel.svg\" />\n          </a>\n        </div>\n        <a href=\"https://www.google.com/maps/dir/").concat(info.coordinates[0], ",").concat(info.coordinates[1], "/\" class=\"customPopup__google\" target=\"_blank\">\n          <img src=\"").concat(this.assetsUrl, "/vecotr.svg\" />\u898F\u5283\u8DEF\u7DDA\n        </a>\n      </div>\n    ");
         }
       }, {
         key: "customIcon",
@@ -1307,9 +1335,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }];
     };
 
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('maskmap', {
-      static: true
-    })], MapComponent.prototype, "chartElement", void 0);
     MapComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
       selector: 'app-map',
       template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
@@ -1387,6 +1412,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _app_store_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
     /*! ../app-store.service */
     "./src/app/app-store.service.ts");
+    /* harmony import */
+
+
+    var src_environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! src/environments/environment */
+    "./src/environments/environment.ts");
 
     var MasklistComponent =
     /*#__PURE__*/
@@ -1396,6 +1427,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         this.appService = appService;
         this.appStoreService = appStoreService;
+        this.assetsUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].assetsUrl;
       }
 
       _createClass(MasklistComponent, [{
@@ -1506,6 +1538,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
     /*! rxjs/operators */
     "./node_modules/rxjs/_esm2015/operators/index.js");
+    /* harmony import */
+
+
+    var src_environments_environment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+    /*! src/environments/environment */
+    "./src/environments/environment.ts");
 
     var SearchComponent =
     /*#__PURE__*/
@@ -1515,6 +1553,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         this.appService = appService;
         this.appStoreService = appStoreService;
+        this.assetsUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_6__["environment"].assetsUrl;
       }
 
       _createClass(SearchComponent, [{
@@ -1598,7 +1637,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
     var environment = {
-      production: false
+      production: false,
+      assetsUrl: 'maskmap/assets'
     };
     /*
      * For easier debugging in development mode, you can import the following file
