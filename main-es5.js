@@ -1261,6 +1261,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         })).subscribe(function (res) {
           _this3.renderMap(res, res[0].coordinates);
         });
+        this.icons = {
+          red: this.customIcon('red'),
+          orange: this.customIcon('orange'),
+          yellow: this.customIcon('yellow'),
+          green: this.customIcon('green'),
+          blue: this.customIcon('blue'),
+          violet: this.customIcon('violet'),
+          gold: this.customIcon('gold'),
+          grey: this.customIcon('grey')
+        };
       }
 
       _createClass(MapComponent, [{
@@ -1272,8 +1282,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             center: [25.0032999, 121.5540404],
             zoom: 15,
             zoomControl: false,
-            layers: [leaflet__WEBPACK_IMPORTED_MODULE_5__["tileLayer"]('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/">Mandy</a>'
+            layers: [leaflet__WEBPACK_IMPORTED_MODULE_5__["tileLayer"]('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+              attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/">Mandy</a>',
+              maxZoom: 18,
+              id: 'mapbox/streets-v11',
+              accessToken: 'pk.eyJ1IjoibXR3bXQiLCJhIjoiY2s2Z2lvN2p5MmE2MjNsbjNsc2tvM2I5ciJ9.6WxKL8KMqhcRpsHrNNtvfQ'
             })]
           });
           this.appStoreService.getCurInfo$.subscribe(function (res) {
@@ -1283,17 +1296,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             _this4.curPos = res;
 
             _this4.map.setView(res, 15);
+
+            console.log('curPos', _this4.curPos);
           });
-          this.icons = {
-            red: this.customIcon('red'),
-            orange: this.customIcon('orange'),
-            yellow: this.customIcon('yellow'),
-            green: this.customIcon('green'),
-            blue: this.customIcon('blue'),
-            violet: this.customIcon('violet'),
-            gold: this.customIcon('gold'),
-            grey: this.customIcon('grey')
-          };
         }
       }, {
         key: "ngOnDestroy",
@@ -1310,6 +1315,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             _this5.addMarker(e);
           });
           this.map.addLayer(this.group);
+          leaflet__WEBPACK_IMPORTED_MODULE_5__["marker"](this.curPos, {
+            icon: this.icons.gold
+          }).addTo(this.map);
         }
       }, {
         key: "onPharmacy",
@@ -1605,9 +1613,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             return [res[0], res[1].features];
           })).subscribe(function (res) {
             // console.log('alllist', res[1] )
-            _this7.getTaiwanCity = res[0]; // this.onCityChange('臺北市');
+            _this7.getTaiwanCity = res[0];
 
-            _this7.appStoreService.getPharmacy$.next(res[1]);
+            _this7.onCityChange('臺北市'); // this.appStoreService.getPharmacy$.next( res[1] );
+
           });
         }
       }, {

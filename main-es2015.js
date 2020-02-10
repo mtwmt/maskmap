@@ -628,21 +628,6 @@ let MapComponent = class MapComponent {
         })).subscribe(res => {
             this.renderMap(res, res[0].coordinates);
         });
-    }
-    ngOnInit() {
-        this.map = leaflet__WEBPACK_IMPORTED_MODULE_5__["map"]('map', {
-            center: [25.0032999, 121.5540404],
-            zoom: 15,
-            zoomControl: false,
-            layers: [leaflet__WEBPACK_IMPORTED_MODULE_5__["tileLayer"]('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/">Mandy</a>' })]
-        });
-        this.appStoreService.getCurInfo$.subscribe(res => {
-            this.onPharmacy(res);
-        });
-        this.curPos$.subscribe(res => {
-            this.curPos = res;
-            this.map.setView(res, 15);
-        });
         this.icons = {
             red: this.customIcon('red'),
             orange: this.customIcon('orange'),
@@ -654,6 +639,27 @@ let MapComponent = class MapComponent {
             grey: this.customIcon('grey'),
         };
     }
+    ngOnInit() {
+        this.map = leaflet__WEBPACK_IMPORTED_MODULE_5__["map"]('map', {
+            center: [25.0032999, 121.5540404],
+            zoom: 15,
+            zoomControl: false,
+            layers: [leaflet__WEBPACK_IMPORTED_MODULE_5__["tileLayer"]('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                    attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/">Mandy</a>',
+                    maxZoom: 18,
+                    id: 'mapbox/streets-v11',
+                    accessToken: 'pk.eyJ1IjoibXR3bXQiLCJhIjoiY2s2Z2lvN2p5MmE2MjNsbjNsc2tvM2I5ciJ9.6WxKL8KMqhcRpsHrNNtvfQ'
+                })]
+        });
+        this.appStoreService.getCurInfo$.subscribe(res => {
+            this.onPharmacy(res);
+        });
+        this.curPos$.subscribe(res => {
+            this.curPos = res;
+            this.map.setView(res, 15);
+            console.log('curPos', this.curPos);
+        });
+    }
     ngOnDestroy() {
         this.curPos$.unsubscribe();
     }
@@ -663,6 +669,7 @@ let MapComponent = class MapComponent {
             this.addMarker(e);
         });
         this.map.addLayer(this.group);
+        leaflet__WEBPACK_IMPORTED_MODULE_5__["marker"](this.curPos, { icon: this.icons.gold }).addTo(this.map);
     }
     onPharmacy(info) {
         this.map
@@ -857,8 +864,8 @@ let SearchComponent = class SearchComponent {
         })).subscribe(res => {
             // console.log('alllist', res[1] )
             this.getTaiwanCity = res[0];
-            // this.onCityChange('臺北市');
-            this.appStoreService.getPharmacy$.next(res[1]);
+            this.onCityChange('臺北市');
+            // this.appStoreService.getPharmacy$.next( res[1] );
         });
     }
     onCityChange(event) {
