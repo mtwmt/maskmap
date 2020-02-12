@@ -71,7 +71,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"search\" [ngClass]=\"{ 'active': isOpen }\">\n  <div class=\"search__header\">\n    <div class=\"search__header-title\">搜尋</div>\n    <div class=\"search__header-city\">\n      <select name=\"\" id=\"city\" (change)=\"onCityChange($event.target.value)\">\n        <option\n          *ngFor=\"let item of appStoreService.getCity$ | async\"\n          [(value)]=\"item.CityName\"\n          >{{ item.CityName }}</option\n        >\n      </select>\n    </div>\n    <div class=\"search__header-area\">\n      <select name=\"\" id=\"zone\" (change)=\"onAreaChange($event.target.value)\">\n        <option>請選擇</option>\n        <option\n          *ngFor=\"let item of appStoreService.getArea$ | async\"\n          [(value)]=\"item.AreaName\"\n          >{{ item.AreaName }}</option\n        >\n      </select>\n    </div>\n  </div>\n</div>\n<div class=\"search__body\">\n  <!-- <div class=\"search__body-title\">搜尋</div>\n    <div class=\"search__body-city\">\n      <select name=\"\" id=\"city\" (change)=\"onCityChange($event.target.value)\">\n        <option *ngFor=\"let item of appStoreService.getCity$ | async\" [(value)]=\"item.CityName\">{{ item.CityName }}</option>\n      </select>\n    </div>\n    <div class=\"search__body-area\">\n      <select name=\"\" id=\"zone\" (change)=\"onAreaChange($event.target.value)\">\n        <option>請選擇</option>\n        <option *ngFor=\"let item of appStoreService.getArea$ | async\" [(value)]=\"item.AreaName\">{{ item.AreaName }}</option>\n      </select>\n    </div>\n  </div> -->\n  <app-masklist></app-masklist>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"search\" [ngClass]=\"{ 'active': isOpen }\">\n  <div class=\"search__header\">\n    <div class=\"search__header-title\">搜尋</div>\n    <div class=\"search__header-city\">\n      <select name=\"\" id=\"city\" (change)=\"onCityChange($event.target.value)\">\n        <option\n          *ngFor=\"let item of appStoreService.getCity$ | async\"\n          [(value)]=\"item.Name\"\n          >{{ item.Name }}</option\n        >\n      </select>\n    </div>\n    <div class=\"search__header-area\">\n      <select name=\"\" id=\"zone\" (change)=\"onAreaChange($event.target.value)\">\n        <option>全區</option>\n        <option\n          *ngFor=\"let item of appStoreService.getArea$ | async\"\n          [(value)]=\"item.Name\"\n          >{{ item.Name }}</option\n        >\n      </select>\n    </div>\n  </div>\n</div>\n<div class=\"search__body\">\n  <!-- <div class=\"search__body-title\">搜尋</div>\n    <div class=\"search__body-city\">\n      <select name=\"\" id=\"city\" (change)=\"onCityChange($event.target.value)\">\n        <option *ngFor=\"let item of appStoreService.getCity$ | async\" [(value)]=\"item.CityName\">{{ item.CityName }}</option>\n      </select>\n    </div>\n    <div class=\"search__body-area\">\n      <select name=\"\" id=\"zone\" (change)=\"onAreaChange($event.target.value)\">\n        <option>請選擇</option>\n        <option *ngFor=\"let item of appStoreService.getArea$ | async\" [(value)]=\"item.AreaName\">{{ item.AreaName }}</option>\n      </select>\n    </div>\n  </div> -->\n  <app-masklist></app-masklist>\n</div>\n");
 
 /***/ }),
 
@@ -370,16 +370,16 @@ let AppStoreService = class AppStoreService {
         this.getCity$.next(this.getCity);
     }
     setArea(city) {
-        this.getArea = this.getCity.filter(e => e.CityName === city);
-        this.getArea$.next(this.getArea[0].AreaList);
+        this.getArea = this.getCity.filter(e => e.Name === city);
+        this.getArea$.next(this.getArea[0].Districts);
     }
     setPharmacy(ary) {
         this.getAllPharmacy = ary;
     }
     setPharmacyList(city, area) {
         const newList = this.getAllPharmacy.filter(e => {
-            if (e.properties.address.match('台')) {
-                e.properties.address = e.properties.address.replace('台', '臺');
+            if (e.properties.address.match('臺')) {
+                e.properties.address = e.properties.address.replace('臺', '台');
             }
             if (!area) {
                 area = '';
@@ -389,7 +389,7 @@ let AppStoreService = class AppStoreService {
         this.getPharmacy$.next(newList);
     }
     setPharmacyInfo(pos, info) {
-        const newInfo = Object.assign({}, info, { coordinates: [pos.coordinates[1], pos.coordinates[0]] });
+        const newInfo = Object.assign({}, info, { coordinates: pos.coordinates });
         this.getCurInfo$.next(newInfo);
     }
 };
@@ -535,19 +535,41 @@ let AppService = class AppService {
         this.httpClient = httpClient;
         this.appStoreService = appStoreService;
         this.assetsUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_5__["environment"].assetsUrl;
-        this.url = 'https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json?fbclid=IwAR05WGCvc-9Ebzk6FfkBra5PKPTEh9m8EudIpKp7HRJ-woZvl9BsGMrYiRs';
+        this.url = 'https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json';
     }
     fetchTaiwanCity(city) {
-        return this.httpClient.get(`${this.assetsUrl}/citycounty.json`)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(res => {
+        return this.httpClient.get(`${this.assetsUrl}/counties.json`)
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(res => {
+            res.sort((a, b) => a.Sort - b.Sort);
+            res.map((e) => {
+                e.Districts.sort((a, b) => a.Sort - b.Sort);
+            });
+            return res;
+        }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(res => {
             this.appStoreService.setCity(res);
         }));
     }
     fetchPharmacy(area) {
         return this.httpClient.get(this.url)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(res => {
-            this.appStoreService.setPharmacy(res.features);
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(res => {
+            res.features.map(e => {
+                e.geometry.coordinates = e.geometry.coordinates.reverse();
+                e.properties.phone = e.properties.phone.replace(/\s*/g, '');
+            });
+            return res.features.filter(e => e.properties.mask_adult > 0 || e.properties.mask_child > 0);
+        }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(res => {
+            this.appStoreService.setPharmacy(res);
         }));
+    }
+    fetchlocal() {
+        const token = 'pk.eyJ1IjoibXR3bXQiLCJhIjoiY2s2Z2lvN2p5MmE2MjNsbjNsc2tvM2I5ciJ9.6WxKL8KMqhcRpsHrNNtvfQ';
+        const key = 'AIzaSyBGd0MP4HMs0p6dQ_xV6gt-5XBkZc4jmD8';
+        // const location = [-73.989, 40.733];
+        const location = [24.953750499999998, 121.34356229999999];
+        return this.httpClient.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.join(',')}&key=${key}`);
+        // return this.httpClient.get<any>(
+        //   `https://api.mapbox.com/geocoding/v5/mapbox.places/${location.join(',')}.json?routing=true&access_token=${token}`
+        // )
     }
 };
 AppService.ctorParameters = () => [
@@ -613,15 +635,15 @@ let MapComponent = class MapComponent {
         this.appStoreService = appStoreService;
         // @ViewChild('maskmap', { static: true }) chartElement: ElementRef;
         this.assetsUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_7__["environment"].assetsUrl;
-        this.curPos = [25.0032999, 121.5540404];
-        this.curPos$ = new rxjs__WEBPACK_IMPORTED_MODULE_8__["BehaviorSubject"](this.curPos);
+        this.location = [25.0032999, 121.5540404];
+        this.location$ = new rxjs__WEBPACK_IMPORTED_MODULE_8__["BehaviorSubject"](this.location);
         this.getPosition();
         this.appStoreService.getPharmacy$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(res => {
             if (!res) {
                 return;
             }
             const info = res.reduce((total, el) => {
-                total.push(Object.assign({}, el.properties, { coordinates: [el.geometry.coordinates[1], el.geometry.coordinates[0]] }));
+                total.push(Object.assign({}, el.properties, { coordinates: el.geometry.coordinates }));
                 return total;
             }, []);
             return info;
@@ -640,13 +662,14 @@ let MapComponent = class MapComponent {
         };
     }
     ngOnInit() {
+        // 樣式ID https://docs.mapbox.com/api/maps/#mapbox-styles
         this.map = leaflet__WEBPACK_IMPORTED_MODULE_5__["map"]('map', {
             center: [25.0032999, 121.5540404],
-            zoom: 15,
+            zoom: 13,
             zoomControl: false,
             layers: [leaflet__WEBPACK_IMPORTED_MODULE_5__["tileLayer"]('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-                    attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/">Mandy</a>',
-                    maxZoom: 18,
+                    attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/" target="_blank">Mandy</a>',
+                    maxZoom: 20,
                     id: 'mapbox/streets-v11',
                     accessToken: 'pk.eyJ1IjoibXR3bXQiLCJhIjoiY2s2Z2lvN2p5MmE2MjNsbjNsc2tvM2I5ciJ9.6WxKL8KMqhcRpsHrNNtvfQ'
                 })]
@@ -654,14 +677,34 @@ let MapComponent = class MapComponent {
         this.appStoreService.getCurInfo$.subscribe(res => {
             this.onPharmacy(res);
         });
-        this.curPos$.subscribe(res => {
-            this.curPos = res;
-            this.map.setView(res, 15);
-            console.log('curPos', this.curPos);
+        // this.location$.subscribe(res => {
+        //   this.location = res;
+        //   this.map.setView(res, 13);
+        //   console.log('location', this.location)
+        // });
+        Object(rxjs__WEBPACK_IMPORTED_MODULE_8__["combineLatest"])(this.appService.fetchTaiwanCity(), this.location$).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(res => {
+            return [
+                res[0],
+                { latitude: res[1][0], longitude: res[1][1] }
+            ];
+        })).subscribe(res => {
+            // console.log('qqq', res[0], res[1])
+            // const strLocLat = res[1].latitude.toString().split('.');
+            // const strLocLng = res[1].longitude.toString().split('.');
+            // res[0].map(e => {
+            //   e.Districts.map(el => {
+            //     const strCityLat = el.Latitude.toString().split('.');
+            //     const strCityLng = el.Longitude.toString().split('.');
+            //     if (strLocLat[0].indexOf(strCityLat[0]) >= 0 && strLocLng[0].indexOf(strCityLng[0]) >= 0) {
+            //       console.log('city', el)
+            //     }
+            //   })
+            // })
         });
+        this.appService.fetchlocal().subscribe(res => console.log('pos', res));
     }
     ngOnDestroy() {
-        this.curPos$.unsubscribe();
+        this.location$.unsubscribe();
     }
     renderMap(list, cur) {
         this.group = new leaflet__WEBPACK_IMPORTED_MODULE_5__["MarkerClusterGroup"]().addTo(this.map);
@@ -669,7 +712,7 @@ let MapComponent = class MapComponent {
             this.addMarker(e);
         });
         this.map.addLayer(this.group);
-        leaflet__WEBPACK_IMPORTED_MODULE_5__["marker"](this.curPos, { icon: this.icons.gold }).addTo(this.map);
+        leaflet__WEBPACK_IMPORTED_MODULE_5__["marker"](this.location, { icon: this.icons.gold }).addTo(this.map);
     }
     onPharmacy(info) {
         this.map
@@ -712,7 +755,7 @@ let MapComponent = class MapComponent {
             <img src="${this.assetsUrl}/tel.svg" />
           </a>
         </div>
-        <a href="https://www.google.com/maps/dir/${this.curPos[0]},${this.curPos[1]}/${info.coordinates[0]},${info.coordinates[1]}" class="customPopup__google" target="_blank">
+        <a href="https://www.google.com/maps/dir/${this.location[0]},${this.location[1]}/${info.coordinates[0]},${info.coordinates[1]}" class="customPopup__google" target="_blank">
           <img src="${this.assetsUrl}/vecotr.svg" />規劃路線
         </a>
       </div>
@@ -732,7 +775,7 @@ let MapComponent = class MapComponent {
         navigator.geolocation.getCurrentPosition((data) => {
             const latitude = data.coords.latitude;
             const longitude = data.coords.longitude;
-            this.curPos$.next([latitude, longitude]);
+            this.location$.next([latitude, longitude]);
         });
     }
 };
@@ -860,11 +903,12 @@ let SearchComponent = class SearchComponent {
     }
     ngOnInit() {
         Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["combineLatest"])(this.appService.fetchTaiwanCity(), this.appService.fetchPharmacy()).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["map"])(res => {
-            return [res[0], res[1].features];
+            return [res[0], res[1]];
         })).subscribe(res => {
+            // console.log(123, res)
             // console.log('alllist', res[1] )
             this.getTaiwanCity = res[0];
-            this.onCityChange('臺北市');
+            this.onCityChange('台北市');
             // this.appStoreService.getPharmacy$.next( res[1] );
         });
     }
@@ -874,7 +918,12 @@ let SearchComponent = class SearchComponent {
         this.appStoreService.setPharmacyList(this.city);
     }
     onAreaChange(event) {
-        this.area = event;
+        if (event === '全區') {
+            this.area = '';
+        }
+        else {
+            this.area = event;
+        }
         this.appStoreService.setPharmacyList(this.city, this.area);
     }
 };

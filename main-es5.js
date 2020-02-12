@@ -111,7 +111,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div class=\"search\" [ngClass]=\"{ 'active': isOpen }\">\n  <div class=\"search__header\">\n    <div class=\"search__header-title\">搜尋</div>\n    <div class=\"search__header-city\">\n      <select name=\"\" id=\"city\" (change)=\"onCityChange($event.target.value)\">\n        <option\n          *ngFor=\"let item of appStoreService.getCity$ | async\"\n          [(value)]=\"item.CityName\"\n          >{{ item.CityName }}</option\n        >\n      </select>\n    </div>\n    <div class=\"search__header-area\">\n      <select name=\"\" id=\"zone\" (change)=\"onAreaChange($event.target.value)\">\n        <option>請選擇</option>\n        <option\n          *ngFor=\"let item of appStoreService.getArea$ | async\"\n          [(value)]=\"item.AreaName\"\n          >{{ item.AreaName }}</option\n        >\n      </select>\n    </div>\n  </div>\n</div>\n<div class=\"search__body\">\n  <!-- <div class=\"search__body-title\">搜尋</div>\n    <div class=\"search__body-city\">\n      <select name=\"\" id=\"city\" (change)=\"onCityChange($event.target.value)\">\n        <option *ngFor=\"let item of appStoreService.getCity$ | async\" [(value)]=\"item.CityName\">{{ item.CityName }}</option>\n      </select>\n    </div>\n    <div class=\"search__body-area\">\n      <select name=\"\" id=\"zone\" (change)=\"onAreaChange($event.target.value)\">\n        <option>請選擇</option>\n        <option *ngFor=\"let item of appStoreService.getArea$ | async\" [(value)]=\"item.AreaName\">{{ item.AreaName }}</option>\n      </select>\n    </div>\n  </div> -->\n  <app-masklist></app-masklist>\n</div>\n";
+    __webpack_exports__["default"] = "<div class=\"search\" [ngClass]=\"{ 'active': isOpen }\">\n  <div class=\"search__header\">\n    <div class=\"search__header-title\">搜尋</div>\n    <div class=\"search__header-city\">\n      <select name=\"\" id=\"city\" (change)=\"onCityChange($event.target.value)\">\n        <option\n          *ngFor=\"let item of appStoreService.getCity$ | async\"\n          [(value)]=\"item.Name\"\n          >{{ item.Name }}</option\n        >\n      </select>\n    </div>\n    <div class=\"search__header-area\">\n      <select name=\"\" id=\"zone\" (change)=\"onAreaChange($event.target.value)\">\n        <option>全區</option>\n        <option\n          *ngFor=\"let item of appStoreService.getArea$ | async\"\n          [(value)]=\"item.Name\"\n          >{{ item.Name }}</option\n        >\n      </select>\n    </div>\n  </div>\n</div>\n<div class=\"search__body\">\n  <!-- <div class=\"search__body-title\">搜尋</div>\n    <div class=\"search__body-city\">\n      <select name=\"\" id=\"city\" (change)=\"onCityChange($event.target.value)\">\n        <option *ngFor=\"let item of appStoreService.getCity$ | async\" [(value)]=\"item.CityName\">{{ item.CityName }}</option>\n      </select>\n    </div>\n    <div class=\"search__body-area\">\n      <select name=\"\" id=\"zone\" (change)=\"onAreaChange($event.target.value)\">\n        <option>請選擇</option>\n        <option *ngFor=\"let item of appStoreService.getArea$ | async\" [(value)]=\"item.AreaName\">{{ item.AreaName }}</option>\n      </select>\n    </div>\n  </div> -->\n  <app-masklist></app-masklist>\n</div>\n";
     /***/
   },
 
@@ -797,9 +797,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "setArea",
         value: function setArea(city) {
           this.getArea = this.getCity.filter(function (e) {
-            return e.CityName === city;
+            return e.Name === city;
           });
-          this.getArea$.next(this.getArea[0].AreaList);
+          this.getArea$.next(this.getArea[0].Districts);
         }
       }, {
         key: "setPharmacy",
@@ -810,8 +810,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "setPharmacyList",
         value: function setPharmacyList(city, area) {
           var newList = this.getAllPharmacy.filter(function (e) {
-            if (e.properties.address.match('台')) {
-              e.properties.address = e.properties.address.replace('台', '臺');
+            if (e.properties.address.match('臺')) {
+              e.properties.address = e.properties.address.replace('臺', '台');
             }
 
             if (!area) {
@@ -826,7 +826,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "setPharmacyInfo",
         value: function setPharmacyInfo(pos, info) {
           var newInfo = Object.assign({}, info, {
-            coordinates: [pos.coordinates[1], pos.coordinates[0]]
+            coordinates: pos.coordinates
           });
           this.getCurInfo$.next(newInfo);
         }
@@ -1085,7 +1085,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.httpClient = httpClient;
         this.appStoreService = appStoreService;
         this.assetsUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_5__["environment"].assetsUrl;
-        this.url = 'https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json?fbclid=IwAR05WGCvc-9Ebzk6FfkBra5PKPTEh9m8EudIpKp7HRJ-woZvl9BsGMrYiRs';
+        this.url = 'https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json';
       }
 
       _createClass(AppService, [{
@@ -1093,7 +1093,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function fetchTaiwanCity(city) {
           var _this = this;
 
-          return this.httpClient.get("".concat(this.assetsUrl, "/citycounty.json")).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(function (res) {
+          return this.httpClient.get("".concat(this.assetsUrl, "/counties.json")).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (res) {
+            res.sort(function (a, b) {
+              return a.Sort - b.Sort;
+            });
+            res.map(function (e) {
+              e.Districts.sort(function (a, b) {
+                return a.Sort - b.Sort;
+              });
+            });
+            return res;
+          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(function (res) {
             _this.appStoreService.setCity(res);
           }));
         }
@@ -1102,9 +1112,28 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function fetchPharmacy(area) {
           var _this2 = this;
 
-          return this.httpClient.get(this.url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(function (res) {
-            _this2.appStoreService.setPharmacy(res.features);
+          return this.httpClient.get(this.url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (res) {
+            res.features.map(function (e) {
+              e.geometry.coordinates = e.geometry.coordinates.reverse();
+              e.properties.phone = e.properties.phone.replace(/\s*/g, '');
+            });
+            return res.features.filter(function (e) {
+              return e.properties.mask_adult > 0 || e.properties.mask_child > 0;
+            });
+          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(function (res) {
+            _this2.appStoreService.setPharmacy(res);
           }));
+        }
+      }, {
+        key: "fetchlocal",
+        value: function fetchlocal() {
+          var token = 'pk.eyJ1IjoibXR3bXQiLCJhIjoiY2s2Z2lvN2p5MmE2MjNsbjNsc2tvM2I5ciJ9.6WxKL8KMqhcRpsHrNNtvfQ';
+          var key = 'AIzaSyBGd0MP4HMs0p6dQ_xV6gt-5XBkZc4jmD8'; // const location = [-73.989, 40.733];
+
+          var location = [24.953750499999998, 121.34356229999999];
+          return this.httpClient.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=".concat(location.join(','), "&key=").concat(key)); // return this.httpClient.get<any>(
+          //   `https://api.mapbox.com/geocoding/v5/mapbox.places/${location.join(',')}.json?routing=true&access_token=${token}`
+          // )
         }
       }]);
 
@@ -1243,8 +1272,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.appStoreService = appStoreService; // @ViewChild('maskmap', { static: true }) chartElement: ElementRef;
 
         this.assetsUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_7__["environment"].assetsUrl;
-        this.curPos = [25.0032999, 121.5540404];
-        this.curPos$ = new rxjs__WEBPACK_IMPORTED_MODULE_8__["BehaviorSubject"](this.curPos);
+        this.location = [25.0032999, 121.5540404];
+        this.location$ = new rxjs__WEBPACK_IMPORTED_MODULE_8__["BehaviorSubject"](this.location);
         this.getPosition();
         this.appStoreService.getPharmacy$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (res) {
           if (!res) {
@@ -1253,7 +1282,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
           var info = res.reduce(function (total, el) {
             total.push(Object.assign({}, el.properties, {
-              coordinates: [el.geometry.coordinates[1], el.geometry.coordinates[0]]
+              coordinates: el.geometry.coordinates
             }));
             return total;
           }, []);
@@ -1278,32 +1307,52 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function ngOnInit() {
           var _this4 = this;
 
+          // 樣式ID https://docs.mapbox.com/api/maps/#mapbox-styles
           this.map = leaflet__WEBPACK_IMPORTED_MODULE_5__["map"]('map', {
             center: [25.0032999, 121.5540404],
-            zoom: 15,
+            zoom: 13,
             zoomControl: false,
             layers: [leaflet__WEBPACK_IMPORTED_MODULE_5__["tileLayer"]('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-              attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/">Mandy</a>',
-              maxZoom: 18,
+              attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/" target="_blank">Mandy</a>',
+              maxZoom: 20,
               id: 'mapbox/streets-v11',
               accessToken: 'pk.eyJ1IjoibXR3bXQiLCJhIjoiY2s2Z2lvN2p5MmE2MjNsbjNsc2tvM2I5ciJ9.6WxKL8KMqhcRpsHrNNtvfQ'
             })]
           });
           this.appStoreService.getCurInfo$.subscribe(function (res) {
             _this4.onPharmacy(res);
+          }); // this.location$.subscribe(res => {
+          //   this.location = res;
+          //   this.map.setView(res, 13);
+          //   console.log('location', this.location)
+          // });
+
+          Object(rxjs__WEBPACK_IMPORTED_MODULE_8__["combineLatest"])(this.appService.fetchTaiwanCity(), this.location$).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (res) {
+            return [res[0], {
+              latitude: res[1][0],
+              longitude: res[1][1]
+            }];
+          })).subscribe(function (res) {// console.log('qqq', res[0], res[1])
+            // const strLocLat = res[1].latitude.toString().split('.');
+            // const strLocLng = res[1].longitude.toString().split('.');
+            // res[0].map(e => {
+            //   e.Districts.map(el => {
+            //     const strCityLat = el.Latitude.toString().split('.');
+            //     const strCityLng = el.Longitude.toString().split('.');
+            //     if (strLocLat[0].indexOf(strCityLat[0]) >= 0 && strLocLng[0].indexOf(strCityLng[0]) >= 0) {
+            //       console.log('city', el)
+            //     }
+            //   })
+            // })
           });
-          this.curPos$.subscribe(function (res) {
-            _this4.curPos = res;
-
-            _this4.map.setView(res, 15);
-
-            console.log('curPos', _this4.curPos);
+          this.appService.fetchlocal().subscribe(function (res) {
+            return console.log('pos', res);
           });
         }
       }, {
         key: "ngOnDestroy",
         value: function ngOnDestroy() {
-          this.curPos$.unsubscribe();
+          this.location$.unsubscribe();
         }
       }, {
         key: "renderMap",
@@ -1315,7 +1364,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             _this5.addMarker(e);
           });
           this.map.addLayer(this.group);
-          leaflet__WEBPACK_IMPORTED_MODULE_5__["marker"](this.curPos, {
+          leaflet__WEBPACK_IMPORTED_MODULE_5__["marker"](this.location, {
             icon: this.icons.gold
           }).addTo(this.map);
         }
@@ -1344,7 +1393,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "customPopup",
         value: function customPopup(info) {
           // console.log('customPopup', info)
-          return "\n      <div class=\"customPopup\">\n        <div class=\"customPopup__title\">".concat(info.name, "</div>\n        <div class=\"customPopup__block-left\">\n          <div class=\"customPopup__addr\">").concat(info.address, "</div>\n          <div class=\"customPopup__note\">").concat(info.note, "</div>\n          <div class=\"customPopup__phone\">").concat(info.phone, "</div>\n        </div>\n        <div class=\"customPopup__block-right\">\n          <div class=\"customPopup__block-flex\">\n            <div class=\"customPopup__child\">\n              <img src=\"").concat(this.assetsUrl, "/child.svg\" />\n              <p>").concat(info.mask_child, "</p>\n            </div>\n            <div class=\"customPopup__adult\">\n              <img src=\"").concat(this.assetsUrl, "/adult.svg\" />\n              <p>").concat(info.mask_adult, "</p>\n            </div>\n          </div>\n          <a href=\"tel:").concat(info.phone, "\" class=\"customPopup__tel\">\n            <img src=\"").concat(this.assetsUrl, "/tel.svg\" />\n          </a>\n        </div>\n        <a href=\"https://www.google.com/maps/dir/").concat(this.curPos[0], ",").concat(this.curPos[1], "/").concat(info.coordinates[0], ",").concat(info.coordinates[1], "\" class=\"customPopup__google\" target=\"_blank\">\n          <img src=\"").concat(this.assetsUrl, "/vecotr.svg\" />\u898F\u5283\u8DEF\u7DDA\n        </a>\n      </div>\n    ");
+          return "\n      <div class=\"customPopup\">\n        <div class=\"customPopup__title\">".concat(info.name, "</div>\n        <div class=\"customPopup__block-left\">\n          <div class=\"customPopup__addr\">").concat(info.address, "</div>\n          <div class=\"customPopup__note\">").concat(info.note, "</div>\n          <div class=\"customPopup__phone\">").concat(info.phone, "</div>\n        </div>\n        <div class=\"customPopup__block-right\">\n          <div class=\"customPopup__block-flex\">\n            <div class=\"customPopup__child\">\n              <img src=\"").concat(this.assetsUrl, "/child.svg\" />\n              <p>").concat(info.mask_child, "</p>\n            </div>\n            <div class=\"customPopup__adult\">\n              <img src=\"").concat(this.assetsUrl, "/adult.svg\" />\n              <p>").concat(info.mask_adult, "</p>\n            </div>\n          </div>\n          <a href=\"tel:").concat(info.phone, "\" class=\"customPopup__tel\">\n            <img src=\"").concat(this.assetsUrl, "/tel.svg\" />\n          </a>\n        </div>\n        <a href=\"https://www.google.com/maps/dir/").concat(this.location[0], ",").concat(this.location[1], "/").concat(info.coordinates[0], ",").concat(info.coordinates[1], "\" class=\"customPopup__google\" target=\"_blank\">\n          <img src=\"").concat(this.assetsUrl, "/vecotr.svg\" />\u898F\u5283\u8DEF\u7DDA\n        </a>\n      </div>\n    ");
         }
       }, {
         key: "customIcon",
@@ -1367,7 +1416,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             var latitude = data.coords.latitude;
             var longitude = data.coords.longitude;
 
-            _this6.curPos$.next([latitude, longitude]);
+            _this6.location$.next([latitude, longitude]);
           });
         }
       }]);
@@ -1610,12 +1659,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var _this7 = this;
 
           Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["combineLatest"])(this.appService.fetchTaiwanCity(), this.appService.fetchPharmacy()).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["map"])(function (res) {
-            return [res[0], res[1].features];
+            return [res[0], res[1]];
           })).subscribe(function (res) {
+            // console.log(123, res)
             // console.log('alllist', res[1] )
             _this7.getTaiwanCity = res[0];
 
-            _this7.onCityChange('臺北市'); // this.appStoreService.getPharmacy$.next( res[1] );
+            _this7.onCityChange('台北市'); // this.appStoreService.getPharmacy$.next( res[1] );
 
           });
         }
@@ -1629,7 +1679,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "onAreaChange",
         value: function onAreaChange(event) {
-          this.area = event;
+          if (event === '全區') {
+            this.area = '';
+          } else {
+            this.area = event;
+          }
+
           this.appStoreService.setPharmacyList(this.city, this.area);
         }
       }]);
