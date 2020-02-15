@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  assetsUrl: 'maskmap/assets'
+  assetsUrl: 'assets'
 };
 
 /*

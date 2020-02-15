@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/maskmap', pathMatch: 'full' },
+  { path: '', redirectTo: '/', pathMatch: 'full' },
   {
     path: 'maskmap',
     component: AppComponent
