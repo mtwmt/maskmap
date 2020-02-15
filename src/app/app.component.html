@@ -1,0 +1,13 @@
+<div class="maskmap">
+  <!-- <a href="javascript:void(0);"
+    class="hamburger" title="MENU"
+    [ngClass]="{ 'active': isOpen }"
+    (click)="onSwitch()"
+  ><span>MENU</span></a> -->
+  <app-search
+    (doOpen)="getOpen($event)"
+    [ngClass]="{ active: isOpen }"
+  ></app-search>
+  <app-map></app-map>
+  <!-- <app-masklist></app-masklist> -->
+</div>
