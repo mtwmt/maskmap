@@ -19,7 +19,7 @@ export class MasklistComponent implements OnInit {
 
   ngOnInit() {
   }
-  setInfo( pos, info ){
+  setInfo(pos: any, info: any ){
     this.appStoreService.setPharmacyInfo( pos, info );
   }
 }

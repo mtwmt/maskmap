@@ -61,9 +61,10 @@ export class SearchComponent implements OnInit {
   }
 
   onCityChange(event: string) {
-    this.appStoreService.setArea(event);
+    this.appStoreService.setAreaList(event);
     this.city = event;
-    this.appStoreService.setPharmacyList(this.city);
+    // this.appStoreService.setPharmacyList(this.city);
+    this.appStoreService.setLocal(this.city);
   }
   onAreaChange(event?: string) {
 
@@ -72,7 +73,8 @@ export class SearchComponent implements OnInit {
     } else {
       this.area = event;
     }
-    this.appStoreService.setPharmacyList(this.city, this.area);
+    // this.appStoreService.setPharmacyList(this.city, this.area);
+    this.appStoreService.setLocal(this.city, this.area);
   }
   onMask(str: string) {
     this.mask = str;

@@ -5,12 +5,15 @@ import { BehaviorSubject, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class AppStoreService {
+  city: string;
+  city$: BehaviorSubject<any> = new BehaviorSubject(this.city);
 
-  getCity: any;
-  getCity$: BehaviorSubject<any> = new BehaviorSubject(this.getCity);
 
-  getArea: any;
-  getArea$: BehaviorSubject<any> = new BehaviorSubject(this.getArea);
+  getCityList: any;
+  getCityList$: BehaviorSubject<any> = new BehaviorSubject(this.getCityList);
+
+  getAreaList: any;
+  getAreaList$: BehaviorSubject<any> = new BehaviorSubject(this.getAreaList);
 
   getAllPharmacy: Array<any>;
 
@@ -22,13 +25,18 @@ export class AppStoreService {
 
   constructor() { }
 
-  setCity(ary: Array<any>) {
-    this.getCity = ary;
-    this.getCity$.next(this.getCity);
+  setLocal(city: string, area?: string) {
+    this.city = city;
+    this.city$.next(city);
+    this.setPharmacyList(city, area)
   }
-  setArea(city: string) {
-    this.getArea = this.getCity.filter(e => e.Name === city);
-    this.getArea$.next(this.getArea[0].Districts);
+  setCityList(ary: Array<any>) {
+    this.getCityList = ary;
+    this.getCityList$.next(this.getCityList);
+  }
+  setAreaList(city: string) {
+    this.getAreaList = this.getCityList.filter(e => e.Name === city);
+    this.getAreaList$.next(this.getAreaList[0].Districts);
   }
   setPharmacy(ary: Array<any>) {
     this.getAllPharmacy = ary;
@@ -45,17 +53,16 @@ export class AppStoreService {
     });
     this.getPharmacy = newList;
     this.getPharmacy$.next(newList);
+
     this.setCalMask(newList);
   }
   setPharmacyInfo(pos, info) {
     const newInfo = { ...info, coordinates: pos.coordinates };
     this.getCurInfo$.next(newInfo);
   }
+
   setMask(str: string) {
-    ;
-
     let newList: any = [];
-
     if (str === 'child') {
       newList = this.getPharmacy.filter(e => e.properties.mask_child > 0);
     } else if (str === 'adult') {
@@ -63,13 +70,9 @@ export class AppStoreService {
     } else {
       newList = this.getPharmacy.filter(e => e.properties.mask_child > 0 || e.properties.mask_adult > 0);
     }
-
     this.getPharmacy$.next(newList);
-
   }
   setCalMask(list: Array<any>) {
-
-
     let childTotal = 0;
     let adultTotal = 0;
 
@@ -78,8 +81,6 @@ export class AppStoreService {
       adultTotal += e.properties.mask_adult;
 
     });
-
     this.getCalMask$.next({ childTotal, adultTotal });
-
   }
 }

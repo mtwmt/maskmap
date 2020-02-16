@@ -1,13 +1,17 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy, AfterViewInit } from '@angular/core';
 import { AppService } from '../app.service';
 import { AppStoreService } from '../app-store.service';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
-import { environment } from 'src/environments/environment';
-import { Subject, BehaviorSubject, combineLatest } from 'rxjs';
 
+import * as turf from '@turf/turf';
+import * as bbox from '@turf/bbox';
+import * as bboxPolygon from '@turf/bbox-polygon';
+import * as intersect from '@turf/intersect';
 
 @Component({
   selector: 'app-map',
@@ -15,7 +19,7 @@ import { Subject, BehaviorSubject, combineLatest } from 'rxjs';
   styleUrls: ['./map.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MapComponent implements OnInit, OnDestroy {
+export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // @ViewChild('maskmap', { static: true }) chartElement: ElementRef;
 
@@ -29,6 +33,10 @@ export class MapComponent implements OnInit, OnDestroy {
   prevPoint: any;
   location: L.LatLngExpression = [25.0032999, 121.5540404];
   location$ = new BehaviorSubject(this.location);
+
+
+  countryLayer = null;
+
 
   constructor(
     public appService: AppService,
@@ -45,8 +53,11 @@ export class MapComponent implements OnInit, OnDestroy {
         return info;
       })
     ).subscribe(res => {
+      // console.log('list', res);
       this.renderMap(res, res[0].coordinates);
     });
+
+
 
     this.icons = {
       red: this.customIcon('red'),
@@ -74,7 +85,7 @@ export class MapComponent implements OnInit, OnDestroy {
           attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/" target="_blank">Mandy</a>',
           maxZoom: 20,
           id: 'mapbox/streets-v11',
-          accessToken: 'pk.eyJ1IjoibXR3bXQiLCJhIjoiY2s2Z2lvN2p5MmE2MjNsbjNsc2tvM2I5ciJ9.6WxKL8KMqhcRpsHrNNtvfQ'
+          accessToken: 'pk.eyJ1IjoibXR3bXQiLCJhIjoiY2s2bnczbXh4MHNtYTN1cnVoa2FycjEzayJ9.r5GL2Ms2aZ6vjaJhzpSCOg'
         }
       )]
     });
@@ -83,51 +94,45 @@ export class MapComponent implements OnInit, OnDestroy {
       this.onPharmacy(res);
     });
 
-    // this.location$.subscribe(res => {
-    //   this.location = res;
-    //   this.map.setView(res, 13);
-
-    //   console.log('location', this.location)
-
-    // });
-
-
-    combineLatest(
-      this.appService.fetchTaiwanCity(),
-      this.location$
-    ).pipe(
-      map(res => {
-        return [
-          res[0],
-          { latitude: res[1][0], longitude: res[1][1] }
-        ]
-      })
-    ).subscribe(res => {
-      // console.log('qqq', res[0], res[1])
-      // const strLocLat = res[1].latitude.toString().split('.');
-      // const strLocLng = res[1].longitude.toString().split('.');
-
-      // res[0].map(e => {
-      //   e.Districts.map(el => {
-      //     const strCityLat = el.Latitude.toString().split('.');
-      //     const strCityLng = el.Longitude.toString().split('.');
-
-      //     if (strLocLat[0].indexOf(strCityLat[0]) >= 0 && strLocLng[0].indexOf(strCityLng[0]) >= 0) {
-      //       console.log('city', el)
-      //     }
-      //   })
-
-
-      // })
+    this.location$.subscribe(res => {
+      this.location = res;
+      this.map.setView(res, 9);
+      // console.log('location', this.location)
     });
 
+    combineLatest(
+      this.appService.featchTWGeo(),
+      this.appStoreService.city$,
+    ).pipe(
+      map( res => {
+        return res;
+      })
+    ).subscribe( res=> {
+      if( !res[1] ) { return; }
 
-    // this.appService.fetchlocal().subscribe( res => console.log('pos',res) )
+      if (this.countryLayer ){
+        this.countryLayer.clearLayers();
+      }
+      const city = res[1];
+      const geo = res[0].filter(e => e.properties.name === city);
+
+      this.countryLayer = L.geoJSON(null)
+        .addData(geo)
+        .addTo(this.map);
+
+    })
+
+
   }
+  ngAfterViewInit() {}
   ngOnDestroy() {
     this.location$.unsubscribe();
   }
+
   renderMap(list: Array<any>, cur: any) {
+    // console.log( 'render', list ,cur)
+
+
     this.group = new L.MarkerClusterGroup().addTo(this.map);
     list.map((e, i) => {
       this.addMarker(e);
@@ -150,7 +155,7 @@ export class MapComponent implements OnInit, OnDestroy {
       .openPopup();
   }
   addMarker(info) {
-    const marker = L.marker(info.coordinates, { icon: this.icons.grey }).bindPopup(this.customPopup(info))
+    const marker = L.marker(info.coordinates, { icon: this.icons.grey }).bindPopup(this.customPopup(info));
     this.group.addLayer(marker);
 
 

@@ -30,15 +30,16 @@
   &__header {
     height: rem(164px);
     background: #e0e0e0;
-    padding: rem(20px);
+    padding: rem(20px) rem(20px) rem(0px) rem(20px);
     .search__flex {
       padding-top: rem(16px);
     }
   }
   &__body {
-    height: calc(100% - 230px);
+    height: calc(100% - 165px);
     // background: #e0e0e0;
     padding: rem(20px);
+    overflow-y: scroll;
     &-title {
       padding-left: rem(20px);
       // text-align: right;
