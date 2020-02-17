@@ -1,0 +1,32 @@
+:host{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 100px;
+  height: 100px;
+}
+
+
+.spinner{
+  &-line{
+    display: inline-block;
+    margin: 0 2px;
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    background-color: #4f4f4f;
+    &:nth-last-child(1) {animation: loading .6s .1s linear infinite;}
+    &:nth-last-child(2) {animation: loading .6s .2s linear infinite;}
+    &:nth-last-child(3) {animation: loading .6s .3s linear infinite;}
+  }
+}
+
+
+@keyframes loading {
+    0% {transform: translate(0,0);}
+    50% {transform: translate(0,15px);}
+    100% {transform: translate(0,0);}
+}

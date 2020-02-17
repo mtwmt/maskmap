@@ -1,8 +1,10 @@
 <div class="pharmacy">
+  <div *ngIf="!(appStoreService.getPharmacy$ | async)?.length ">
+    <app-spinner></app-spinner>
+  </div>
   <div
     class="pharmacy__wrap"
     *ngFor="let item of appStoreService.getPharmacy$ | async; let idx = index"
-    [style.left.rem]="23.125 * idx"
     (click)="setInfo(item.geometry, item.properties)"
   >
     <div class="pharmacy__title">{{ item.properties.name }}</div>

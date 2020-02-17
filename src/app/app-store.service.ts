@@ -23,6 +23,9 @@ export class AppStoreService {
   getCurInfo$: Subject<any> = new Subject();
   getCalMask$: Subject<any> = new Subject();
 
+  isSideBar = true;
+  isSideBar$: BehaviorSubject<any> = new BehaviorSubject(this.isSideBar);
+
   constructor() { }
 
   setLocal(city: string, area?: string) {
@@ -42,6 +45,7 @@ export class AppStoreService {
     this.getAllPharmacy = ary;
   }
   setPharmacyList(city: string, area?: string) {
+
     const newList = this.getAllPharmacy.filter(e => {
       if (e.properties.address.match('臺')) {
         e.properties.address = e.properties.address.replace('臺', '台')
@@ -53,7 +57,6 @@ export class AppStoreService {
     });
     this.getPharmacy = newList;
     this.getPharmacy$.next(newList);
-
     this.setCalMask(newList);
   }
   setPharmacyInfo(pos, info) {
@@ -71,6 +74,8 @@ export class AppStoreService {
       newList = this.getPharmacy.filter(e => e.properties.mask_child > 0 || e.properties.mask_adult > 0);
     }
     this.getPharmacy$.next(newList);
+
+
   }
   setCalMask(list: Array<any>) {
     let childTotal = 0;
@@ -82,5 +87,9 @@ export class AppStoreService {
 
     });
     this.getCalMask$.next({ childTotal, adultTotal });
+  }
+  setSideBar() {
+    this.isSideBar = !this.isSideBar;
+    this.isSideBar$.next(this.isSideBar);
   }
 }

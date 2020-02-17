@@ -97,24 +97,23 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.location$.subscribe(res => {
       this.location = res;
       this.map.setView(res, 9);
-      // console.log('location', this.location)
     });
 
     combineLatest(
       this.appService.featchTWGeo(),
       this.appStoreService.city$,
     ).pipe(
-      map( res => {
+      map(res => {
         return res;
       })
-    ).subscribe( res=> {
-      if( !res[1] ) { return; }
+    ).subscribe(res => {
+      if (!res[1]) { return; }
 
-      if (this.countryLayer ){
+      if (this.countryLayer) {
         this.countryLayer.clearLayers();
       }
       const city = res[1];
-      const geo = res[0].filter(e => e.properties.name === city);
+      const geo = res[0].filter(e => e.properties.name !== city);
 
       this.countryLayer = L.geoJSON(null)
         .addData(geo)
@@ -124,16 +123,17 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   }
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
   ngOnDestroy() {
     this.location$.unsubscribe();
   }
 
   renderMap(list: Array<any>, cur: any) {
-    // console.log( 'render', list ,cur)
-
-
+    if (this.group ){
+      this.map.removeLayer(this.group);
+    }
     this.group = new L.MarkerClusterGroup().addTo(this.map);
+
     list.map((e, i) => {
       this.addMarker(e);
     });
@@ -157,8 +157,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   addMarker(info) {
     const marker = L.marker(info.coordinates, { icon: this.icons.grey }).bindPopup(this.customPopup(info));
     this.group.addLayer(marker);
-
-
   }
   customPopup(info) {
     // console.log('customPopup', info)
@@ -186,7 +184,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
             <img src="${this.assetsUrl}/tel.svg" />
           </a>
         </div>
-        <a href="https://www.google.com/maps/dir/${this.location[0]},${this.location[1]}/${info.coordinates[0]},${info.coordinates[1]}" class="customPopup__google" target="_blank">
+        <a href="https://www.google.com/maps/dir/${this.location[0]},${this.location[1]}/${info.coordinates[0]},${info.coordinates[1]}"
+          class="customPopup__google"
+          target="_blank"
+        >
           <img src="${this.assetsUrl}/vecotr.svg" />規劃路線
         </a>
       </div>

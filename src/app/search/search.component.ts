@@ -18,8 +18,6 @@ export class SearchComponent implements OnInit {
   faSearch = faSearch;
   assetsUrl = environment.assetsUrl;
 
-  isOpen: boolean;
-
   getTaiwanCity: Array<any>;
   getTaiwanCityArea: Array<any>;
 
@@ -47,8 +45,6 @@ export class SearchComponent implements OnInit {
         return [res[0], res[1]];
       })
     ).subscribe(res => {
-      // console.log(123, res)
-      // console.log('alllist', res[1] )
       this.getTaiwanCity = res[0];
       this.onCityChange('台北市');
       // this.appStoreService.getPharmacy$.next( res[1] );
@@ -57,7 +53,8 @@ export class SearchComponent implements OnInit {
     this.appStoreService.getCalMask$.subscribe(res => {
       this.childTotal = res.childTotal;
       this.adultTotal = res.adultTotal;
-    })
+    });
+
   }
 
   onCityChange(event: string) {
@@ -73,7 +70,6 @@ export class SearchComponent implements OnInit {
     } else {
       this.area = event;
     }
-    // this.appStoreService.setPharmacyList(this.city, this.area);
     this.appStoreService.setLocal(this.city, this.area);
   }
   onMask(str: string) {
@@ -81,7 +77,6 @@ export class SearchComponent implements OnInit {
     this.appStoreService.setMask(str);
   }
   onSwitch() {
-    this.isOpen = !this.isOpen;
-    this.doOpen.emit(this.isOpen);
+    this.appStoreService.setSideBar();
   }
 }

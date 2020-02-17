@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppStoreService } from './app-store.service';
 
 @Component({
   selector: 'app-root',
@@ -6,18 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  isOpen: boolean;
 
-  getOpen(data: any) {
-    this.isOpen = data;
-  }
-  // onSwitch() {
+  constructor(
+    public appStoreService: AppStoreService
+  ) { }
 
-  //   if (!this.isOpen) {
-  //     this.isOpen = true;
-  //   } else {
-  //     this.isOpen = false;
-  //   }
-
-  // }
 }

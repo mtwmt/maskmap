@@ -21,5 +21,6 @@ export class MasklistComponent implements OnInit {
   }
   setInfo(pos: any, info: any ){
     this.appStoreService.setPharmacyInfo( pos, info );
+    this.appStoreService.setSideBar();
   }
 }

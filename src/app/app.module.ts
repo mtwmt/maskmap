@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { SearchComponent } from './search/search.component';
 import { MasklistComponent } from './masklist/masklist.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 // import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
@@ -17,7 +18,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AppComponent,
     MapComponent,
     SearchComponent,
-    MasklistComponent
+    MasklistComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

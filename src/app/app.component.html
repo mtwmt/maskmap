@@ -5,8 +5,7 @@
     (click)="onSwitch()"
   ><span>MENU</span></a> -->
   <app-search
-    (doOpen)="getOpen($event)"
-    [ngClass]="{ active: isOpen }"
+    [ngClass]="{ 'active': appStoreService.isSideBar$ | async }"
   ></app-search>
   <app-map></app-map>
   <!-- <app-masklist></app-masklist> -->
