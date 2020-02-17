@@ -1,0 +1,49 @@
+
+@import "../../assets/common";
+
+%clear {
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+
+:host {
+  display: none;
+  width: 100%;
+  height: 60px;
+  z-index: 9999;
+  bottom: 0px;
+  left: 0;
+
+  @media (max-width: 800px) {
+    display: block;
+    position: absolute;
+    transition: 0.5s;
+    transform: translateY(0px);
+    &.active{
+
+      transform: translateY(60px);
+    }
+  }
+}
+
+
+.tab{
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #e0e0e0;
+
+  &__search,
+  &__maskinfo,
+  &__info {
+    width: 33.3333%;
+    text-align: center;
+    cursor: pointer;
+  }
+
+}
