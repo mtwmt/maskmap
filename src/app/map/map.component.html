@@ -2,8 +2,6 @@
   <div class="map-frame">
     <div id="map" #maskmap></div>
   </div>
-
 </div>
-<!-- <app-masklist></app-masklist> -->
-
+<app-tab [ngClass]="{ 'active': appStoreService.isSideBar$ | async }"></app-tab>
 

@@ -8,6 +8,16 @@
   }
 }
 
+// :host {
+//   position: relative;
+//   width: calc( 100% - 320px );
+//   @media (max-width: 800px) {
+//     position: absolute;
+//     width: 100%;
+//     height: 100%;
+//   }
+// }
+
 .map-container {
   position: absolute;
   top: 0;
@@ -25,9 +35,6 @@
 }
 
 .leaflet-popup {
-  // &-content-wrapper{
-  //   background: #159;
-  // }
   &-content {
     @extend %clear;
   }
@@ -41,7 +48,8 @@
     font-weight: bold;
     line-height: rem(27px);
   }
-  &__addr,&__note {
+  &__addr,
+  &__note {
     font-size: rem(14px);
     line-height: 1.5;
     color: #828282;
@@ -53,12 +61,7 @@
     line-height: 1.5;
     color: #828282;
   }
-  &__updated {
-    margin-top: rem(8px);
-    font-size: rem(12px);
-    line-height: 1.5;
-    color: #828282;
-  }
+
   &__child,
   &__adult {
     font-size: rem(24px);
@@ -82,6 +85,14 @@
     border: 1px solid #f2c94c;
     box-sizing: border-box;
     border-radius: rem(20px);
+  }
+  &__updated {
+    clear: both;
+    margin-top: rem(8px);
+    font-size: rem(12px);
+    line-height: 1.5;
+    color: #828282;
+    text-align: right;
   }
   &__google {
     clear: both;

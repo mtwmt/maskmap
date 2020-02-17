@@ -167,7 +167,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           <div class="customPopup__addr">${ info.address}</div>
           <div class="customPopup__note">${ info.note}</div>
           <div class="customPopup__phone">${ info.phone}</div>
-          <div class="customPopup__updated">更新時間：<br/>${ info.updated}</div>
         </div>
         <div class="customPopup__block-right">
           <div class="customPopup__block-flex">
@@ -184,6 +183,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
             <img src="${this.assetsUrl}/tel.svg" />
           </a>
         </div>
+        <div class="customPopup__updated">更新時間：${ info.updated}</div>
         <a href="https://www.google.com/maps/dir/${this.location[0]},${this.location[1]}/${info.coordinates[0]},${info.coordinates[1]}"
           class="customPopup__google"
           target="_blank"

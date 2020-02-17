@@ -1,8 +1,12 @@
+<div class="search__bg"
+  (click)="onSwitch()"
+  [ngClass]="{ 'active': appStoreService.isSideBar$ | async }"
+></div>
 <div class="search" [ngClass]="{ 'active': appStoreService.isSideBar$ | async }">
-  <div class="search__icon" (click)="onSwitch()">
-    <fa-icon [icon]="faSearch"></fa-icon>
-  </div>
   <div class="search__header">
+    <div class="search__icon" (click)="onSwitch()">
+      <fa-icon [icon]="faSearch"></fa-icon>
+    </div>
     <!-- <figure><img src= "{{assetsUrl}}/nhi.svg"/></figure>
     <div class="search__flex">
       <div class="search__info">
@@ -43,31 +47,32 @@
       </div>
     </div>
   </div>
-</div>
-<div class="search__body">
-
-  <app-masklist></app-masklist>
-  <div class="search__mask">
-    <h4>{{ city }}{{ area }} <span>口罩總量：{{ childTotal + adultTotal }}</span></h4>
-    <div class="search__mask-flex">
-      <div class="search__mask-child isAct" (click)="onMask('child')"
-        [ngClass]="{ 'isAct': mask === 'child' }"
-      >
-        <img src= "{{assetsUrl}}/child.svg"/>
+  <div class="search__body">
+    <app-masklist></app-masklist>
+    <div class="search__mask">
+      <h4>{{ city }}{{ area }} <span>口罩總量：{{ childTotal + adultTotal }}</span></h4>
+      <div class="search__mask-flex">
+        <div class="search__mask-child isAct" (click)="onMask('child')"
+          [ngClass]="{ 'isAct': mask === 'child' }"
+        >
+          <img src= "{{assetsUrl}}/child.svg"/>
+        </div>
+        <div class="search__mask-adult" (click)="onMask('adult')"
+          [ngClass]="{ 'isAct': mask === 'adult' }"
+        >
+          <img src= "{{assetsUrl}}/adult.svg"/>
+        </div>
+        <div class="search__mask-both" (click)="onMask('both')"
+          [ngClass]="{ 'isAct': mask === '' }"
+        >
+          <img src= "{{assetsUrl}}/both.svg"/>
+        </div>
       </div>
-      <div class="search__mask-adult" (click)="onMask('adult')"
-        [ngClass]="{ 'isAct': mask === 'adult' }"
-      >
-        <img src= "{{assetsUrl}}/adult.svg"/>
+      <div class="search__mask-total">
+        <p> <span>小孩口罩：{{ childTotal }}</span><span>成人口罩：{{ adultTotal }}</span></p>
       </div>
-      <div class="search__mask-both" (click)="onMask('both')"
-        [ngClass]="{ 'isAct': mask === '' }"
-      >
-        <img src= "{{assetsUrl}}/both.svg"/>
-      </div>
-    </div>
-    <div class="search__mask-total">
-      <p> <span>小孩口罩：{{ childTotal }}</span><span>成人口罩：{{ adultTotal }}</span></p>
     </div>
   </div>
 </div>
+
+

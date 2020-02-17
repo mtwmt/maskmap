@@ -10,6 +10,7 @@ import { SearchComponent } from './search/search.component';
 import { MasklistComponent } from './masklist/masklist.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { TabComponent } from './tab/tab.component';
 
 // import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
@@ -19,7 +20,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     MapComponent,
     SearchComponent,
     MasklistComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    TabComponent
   ],
   imports: [
     BrowserModule,

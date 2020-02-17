@@ -1,12 +1,5 @@
 <div class="maskmap">
-  <!-- <a href="javascript:void(0);"
-    class="hamburger" title="MENU"
-    [ngClass]="{ 'active': isOpen }"
-    (click)="onSwitch()"
-  ><span>MENU</span></a> -->
-  <app-search
-    [ngClass]="{ 'active': appStoreService.isSideBar$ | async }"
-  ></app-search>
+  <app-search [ngClass]="{ 'active': appStoreService.isSideBar$ | async }"></app-search>
   <app-map></app-map>
-  <!-- <app-masklist></app-masklist> -->
+
 </div>

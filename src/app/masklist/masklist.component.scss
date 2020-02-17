@@ -19,12 +19,16 @@
 //   width: 100%;
 //   height: rem(130px + 40px);
 // }
-
-.pharmacy {
+:host{
   position: absolute;
   width: 100%;
   height: calc(100% - 205px );
   overflow-y: scroll;
+}
+
+
+.pharmacy {
+
   // overflow-x: scroll;
 
   &__wrap {

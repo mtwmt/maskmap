@@ -13,8 +13,6 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 })
 export class SearchComponent implements OnInit {
 
-  @Output() doOpen: EventEmitter<any> = new EventEmitter();
-
   faSearch = faSearch;
   assetsUrl = environment.assetsUrl;
 
