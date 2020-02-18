@@ -50,9 +50,17 @@
   <div class="search__body">
     <app-masklist></app-masklist>
     <div class="search__mask">
-      <h4>{{ city }}{{ area }} <span>口罩總量：{{ childTotal + adultTotal }}</span></h4>
       <div class="search__mask-flex">
-        <div class="search__mask-child isAct" (click)="onMask('child')"
+        <h4>{{ city }}{{ area }} <span>口罩總量：{{ childTotal + adultTotal }}</span></h4>
+        <span
+          class="search__mask-all"
+          (click)="onMask('all')"
+           [ngClass]="{ 'isAct': mask === 'all' }"
+        >ALL</span>
+      </div>
+
+      <div class="search__mask-flex">
+        <div class="search__mask-child" (click)="onMask('child')"
           [ngClass]="{ 'isAct': mask === 'child' }"
         >
           <img src= "{{assetsUrl}}/child.svg"/>
@@ -63,7 +71,7 @@
           <img src= "{{assetsUrl}}/adult.svg"/>
         </div>
         <div class="search__mask-both" (click)="onMask('both')"
-          [ngClass]="{ 'isAct': mask === '' }"
+          [ngClass]="{ 'isAct': mask === 'both' }"
         >
           <img src= "{{assetsUrl}}/both.svg"/>
         </div>

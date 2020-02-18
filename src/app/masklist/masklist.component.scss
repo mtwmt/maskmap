@@ -28,20 +28,20 @@
 
 
 .pharmacy {
-
+  @extend %clear;
   // overflow-x: scroll;
 
   &__wrap {
-    @extend %clear;
+
     // position: absolute;
     // left: 0;
     // top: 0;
     // display: inline-block;
 
     // width: rem(350px);
-    height: rem(130px);
+    // height: rem(130px);
     margin: rem(10px) rem(10px);
-    padding: rem(16px) rem(10px);
+    padding: rem(8px) rem(10px);
     box-shadow: 0px 5px 10px #f2f2f2;
     border-radius: rem(10px);
     background: #fff;
@@ -53,7 +53,7 @@
     line-height: rem(27px);
   }
   &__addr {
-    font-size: rem(14px);
+    font-size: rem(12px);
     line-height: 1.5;
     color: #828282;
   }
@@ -73,6 +73,12 @@
     p {
       text-align: center;
     }
+  }
+  &__updated{
+    clear: both;
+    font-size: rem(10px);
+    line-height: 2.3;
+    color: #828282;
   }
   &__block {
     &-left {

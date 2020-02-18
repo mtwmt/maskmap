@@ -57,7 +57,7 @@
     bottom: 0;
     padding: rem(8px);
     background: #e0e0e0;
-    border-radius: rem(4px);
+    border-radius: rem(0px) rem(4px) rem(4px) rem(0px);
     cursor: pointer;
     @media (max-width: 800px) {
       display: block;
@@ -132,7 +132,7 @@
       }
     }
     &-flex {
-      margin: rem(8px) 0;
+      margin: 0 0 rem(4px) 0;
       display: flex;
       justify-content: space-between;
     }
@@ -155,7 +155,7 @@
     left: 0;
     bottom: 0;
     h4 {
-      padding-left: rem(10px);
+      // padding-left: rem(10px);
       font-size: rem(20px);
       font-weight: bold;
       color: #f2994a;
@@ -171,6 +171,7 @@
       margin: rem(8px) 0;
       display: flex;
       justify-content: space-around;
+      align-items: center;
     }
     &-child,
     &-adult,
@@ -192,6 +193,16 @@
       }
       &.isAct {
         box-shadow: 0px rem(5px) rem(10px) #f2c94c;
+      }
+    }
+    &-all{
+      border: 1px solid rgba(#000, 0.25);
+      padding: rem(8px) rem(16px);
+      font-weight: bold;
+      cursor: pointer;
+      &.isAct {
+        box-shadow: 0px rem(5px) rem(10px) #f2c94c;
+        border:1px solid #f2c94c;
       }
     }
     &-total {

@@ -24,6 +24,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   // @ViewChild('maskmap', { static: true }) chartElement: ElementRef;
 
   assetsUrl = environment.assetsUrl;
+  token = environment.token;
 
   map: any;
   pharmacyList: Array<any>;
@@ -33,8 +34,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   prevPoint: any;
   location: L.LatLngExpression = [25.0032999, 121.5540404];
   location$ = new BehaviorSubject(this.location);
-
-
   countryLayer = null;
 
 
@@ -43,21 +42,31 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     public appStoreService: AppStoreService
   ) {
     this.getPosition();
-    this.appStoreService.getPharmacy$.pipe(
+
+    combineLatest(
+      this.appStoreService.getPharmacy$,
+      this.appStoreService.getGeoPolygon$
+    ).pipe(
       map(res => {
-        if (!res) { return; }
-        const info = res.reduce((total, el) => {
+        if (!res[0] || !res[1]) { return; }
+
+        const info = res[0].reduce((total, el) => {
           total.push({ ...el.properties, coordinates: el.geometry.coordinates });
           return total;
         }, []);
-        return info;
+
+        return {
+          pharmacyPoint: info,
+          geoPolyogn: res[1].localGeo,
+          curCity: [res[1].localCityPos[0].Latitude, res[1].localCityPos[0].Longitude]
+        }
       })
     ).subscribe(res => {
-      // console.log('list', res);
-      this.renderMap(res, res[0].coordinates);
+      if (!res) { return; }
+      console.log( 'res',res )
+      // this.renderMap(res.pharmacyPoint, res.pharmacyPoint[0].coordinates);
+      this.renderMap( res )
     });
-
-
 
     this.icons = {
       red: this.customIcon('red'),
@@ -76,16 +85,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     // 樣式ID https://docs.mapbox.com/api/maps/#mapbox-styles
 
     this.map = L.map('map', {
-      center: [25.0032999, 121.5540404],
+      center: this.location,
       zoom: 13,
-      zoomControl: false,
+      // zoomControl: false,
       layers: [L.tileLayer(
         'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
         {
           attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/" target="_blank">Mandy</a>',
           maxZoom: 20,
           id: 'mapbox/streets-v11',
-          accessToken: 'pk.eyJ1IjoibXR3bXQiLCJhIjoiY2s2bnczbXh4MHNtYTN1cnVoa2FycjEzayJ9.r5GL2Ms2aZ6vjaJhzpSCOg'
+          accessToken: this.token
         }
       )]
     });
@@ -94,32 +103,32 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.onPharmacy(res);
     });
 
+
     this.location$.subscribe(res => {
       this.location = res;
       this.map.setView(res, 9);
     });
 
-    combineLatest(
-      this.appService.featchTWGeo(),
-      this.appStoreService.city$,
-    ).pipe(
-      map(res => {
-        return res;
-      })
-    ).subscribe(res => {
-      if (!res[1]) { return; }
+    // combineLatest(
+    //   this.appService.featchTWGeo(),
+    //   this.appStoreService.city$,
+    // ).pipe(
+    //   map(res => {
+    //     return res;
+    //   })
+    // ).subscribe(res => {
+    //   if (!res[1]) { return; }
 
-      if (this.countryLayer) {
-        this.countryLayer.clearLayers();
-      }
-      const city = res[1];
-      const geo = res[0].filter(e => e.properties.name !== city);
+    //   if (this.countryLayer) {
+    //     this.countryLayer.clearLayers();
+    //   }
+    //   const city = res[1];
+    //   const geo = res[0].filter(e => e.properties.name !== city);
 
-      this.countryLayer = L.geoJSON(null)
-        .addData(geo)
-        .addTo(this.map);
-
-    })
+    //   this.countryLayer = L.geoJSON(null)
+    //     .addData(geo)
+    //     .addTo(this.map);
+    // })
 
 
   }
@@ -128,21 +137,37 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.location$.unsubscribe();
   }
 
-  renderMap(list: Array<any>, cur: any) {
-    if (this.group ){
+  renderMap(data: any) {
+
+    if (this.group) {
       this.map.removeLayer(this.group);
     }
+
+    if (this.countryLayer) {
+      this.countryLayer.clearLayers();
+    }
+
     this.group = new L.MarkerClusterGroup().addTo(this.map);
 
-    list.map((e, i) => {
+    data.pharmacyPoint.map((e, i) => {
       this.addMarker(e);
     });
     this.map.addLayer(this.group);
+
     L.marker(this.location, { icon: this.icons.gold }).addTo(this.map);
+
+
+
+    this.countryLayer = L.geoJSON(null)
+        .addData(data.geoPolyogn)
+        .addTo(this.map);
+
+    this.map.setView(data.curCity, 9);
   }
+
   onPharmacy(info) {
     this.map
-      .setView(info.coordinates, 16)
+      .setView(info.coordinates, 13)
       .closePopup();
 
     if (this.prevPoint) {

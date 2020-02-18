@@ -22,7 +22,7 @@ export class SearchComponent implements OnInit {
   city: string;
   area: string;
 
-  mask = '';
+  mask = 'all';
 
   childTotal: number;
   adultTotal: number;
@@ -38,9 +38,10 @@ export class SearchComponent implements OnInit {
     combineLatest(
       this.appService.fetchTaiwanCity(),
       this.appService.fetchPharmacy(),
+      this.appService.featchTWGeo(),
     ).pipe(
       map(res => {
-        return [res[0], res[1]];
+        return [res[0], res[1], res[2]];
       })
     ).subscribe(res => {
       this.getTaiwanCity = res[0];

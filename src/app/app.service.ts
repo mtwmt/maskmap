@@ -11,6 +11,7 @@ import { element } from 'protractor';
 export class AppService {
 
   assetsUrl = environment.assetsUrl;
+  token = environment.token;
 
   url = 'https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json';
 
@@ -51,23 +52,23 @@ export class AppService {
         }),
       )
   }
+
   fetchlocal() {
-    const token = 'pk.eyJ1IjoibXR3bXQiLCJhIjoiY2s2bnczbXh4MHNtYTN1cnVoa2FycjEzayJ9.r5GL2Ms2aZ6vjaJhzpSCOg';
+    const token = this.token;
     const key = 'AIzaSyBGd0MP4HMs0p6dQ_xV6gt-5XBkZc4jmD8';
     // const location = [-73.989, 40.733];
     const location = [24.953750499999998, 121.34356229999999];
-
-    // return this.httpClient.get<any>(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.join(',')}&key=${key}`)
-
 
     return this.httpClient.get<any>(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${location.join(',')}.json?routing=true&access_token=${token}`
     )
   }
-  featchTWGeo() {
+
+  featchTWGeo(city?: string) {
     return this.httpClient.get<any>(`${this.assetsUrl}/tw-county.geojson`)
       .pipe(
         map(res => {
+          console.log('qqq',res)
           return res.features;
           // const newGEO = res.features.reduce((total, arr) => {
           //   const temp = arr.geometry.coordinates.reduce((t, a) => {
@@ -97,9 +98,9 @@ export class AppService {
 
           // console.log('GEO', newGEO, res)
         }),
-        // tap(res => {
-        //   this.appStoreService.setGeo(res);
-        // })
+        tap(res => {
+          this.appStoreService.setGeoList(res);
+        })
       )
   }
 }
