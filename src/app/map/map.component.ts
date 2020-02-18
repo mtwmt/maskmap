@@ -35,7 +35,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   location: L.LatLngExpression = [25.0032999, 121.5540404];
   location$ = new BehaviorSubject(this.location);
   countryLayer = null;
-
+  locationMarker;
 
   constructor(
     public appService: AppService,
@@ -63,8 +63,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     ).subscribe(res => {
       if (!res) { return; }
-      console.log( 'res',res )
-      // this.renderMap(res.pharmacyPoint, res.pharmacyPoint[0].coordinates);
       this.renderMap( res )
     });
 
@@ -105,10 +103,17 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     this.location$.subscribe(res => {
+      if(this.locationMarker ){
+        this.map.removeLayer(this.locationMarker);
+      }
       this.location = res;
       this.map.setView(res, 9);
+
+      this.locationMarker = L.marker(this.location, { icon: this.icons.gold }).addTo(this.map);
+      
     });
 
+    
     // combineLatest(
     //   this.appService.featchTWGeo(),
     //   this.appStoreService.city$,
@@ -153,16 +158,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.addMarker(e);
     });
     this.map.addLayer(this.group);
-
-    L.marker(this.location, { icon: this.icons.gold }).addTo(this.map);
-
-
+    this.map.setView(data.curCity, 9);
 
     this.countryLayer = L.geoJSON(null)
         .addData(data.geoPolyogn)
         .addTo(this.map);
-
-    this.map.setView(data.curCity, 9);
   }
 
   onPharmacy(info) {

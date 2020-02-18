@@ -68,35 +68,7 @@ export class AppService {
     return this.httpClient.get<any>(`${this.assetsUrl}/tw-county.geojson`)
       .pipe(
         map(res => {
-          console.log('qqq',res)
           return res.features;
-          // const newGEO = res.features.reduce((total, arr) => {
-          //   const temp = arr.geometry.coordinates.reduce((t, a) => {
-          //     let aa = [];
-          //     a.map(e => {
-          //       aa.push(e.reverse())
-          //     })
-
-          //     return [...t, ...aa];
-          //   }, []);
-
-
-          //   const obj = {
-          //     properties: arr.properties,
-          //     geometry: {
-          //       type: arr.geometry.type,
-          //       coordinates: temp
-          //     }
-          //   };
-
-          //   console.log( 'obj',obj,temp )
-
-          //   return [...total, obj];
-
-          // }, []);
-
-
-          // console.log('GEO', newGEO, res)
         }),
         tap(res => {
           this.appStoreService.setGeoList(res);
