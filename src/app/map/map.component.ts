@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AppService } from '../app.service';
 import { AppStoreService } from '../app-store.service';
 import { map } from 'rxjs/operators';
@@ -19,7 +19,7 @@ import * as intersect from '@turf/intersect';
   styleUrls: ['./map.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MapComponent implements OnInit {
 
   // @ViewChild('maskmap', { static: true }) chartElement: ElementRef;
 
@@ -32,24 +32,23 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   group: L.MarkerClusterGroup;
   icons: any;
   prevPoint: any;
-  location: L.LatLngExpression = [25.0032999, 121.5540404];
-  location$ = new BehaviorSubject(this.location);
+  location;
   countryLayer = null;
   locationMarker;
+
 
   constructor(
     public appService: AppService,
     public appStoreService: AppStoreService
   ) {
-    this.getPosition();
 
     combineLatest(
       this.appStoreService.getPharmacy$,
-      this.appStoreService.getGeoPolygon$
+      this.appStoreService.getGeoPolygon$,
+      this.appStoreService.location$,
     ).pipe(
       map(res => {
         if (!res[0] || !res[1]) { return; }
-
         const info = res[0].reduce((total, el) => {
           total.push({ ...el.properties, coordinates: el.geometry.coordinates });
           return total;
@@ -58,12 +57,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         return {
           pharmacyPoint: info,
           geoPolyogn: res[1].localGeo,
-          curCity: [res[1].localCityPos[0].Latitude, res[1].localCityPos[0].Longitude]
+          curCity: [res[1].localCityPos[0].Latitude, res[1].localCityPos[0].Longitude],
+          location: [res[2].latitude, res[2].longitude]
         }
       })
     ).subscribe(res => {
       if (!res) { return; }
-      this.renderMap( res )
+      this.location = res.location;
+      if (!this.map) { this.initMap(this.location) }
+      this.renderMap(res);
     });
 
     this.icons = {
@@ -82,72 +84,48 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // 樣式ID https://docs.mapbox.com/api/maps/#mapbox-styles
 
+    // 比例尺
+    // L.control.scale().addTo(this.map);
+
+    // L.control.zoom({
+    //   position: 'topright'
+    // }).addTo(this.map);
+
+
+    this.appStoreService.getCurInfo$.subscribe(res => {
+      this.onPharmacy(res);
+    });
+
+    if (this.locationMarker) {
+      this.map.removeLayer(this.locationMarker);
+    }
+  }
+  initMap(location: any) {
     this.map = L.map('map', {
-      center: this.location,
+      center: location,
       zoom: 13,
       // zoomControl: false,
       layers: [L.tileLayer(
         'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
         {
           attribution: '&copy; 口罩地圖 by <a href="https://mtwmt.github.io/" target="_blank">Mandy</a>',
-          maxZoom: 20,
+          maxZoom: 16,
           id: 'mapbox/streets-v11',
           accessToken: this.token
         }
       )]
     });
 
-    this.appStoreService.getCurInfo$.subscribe(res => {
-      this.onPharmacy(res);
-    });
-
-
-    this.location$.subscribe(res => {
-      if(this.locationMarker ){
-        this.map.removeLayer(this.locationMarker);
-      }
-      this.location = res;
-      this.map.setView(res, 9);
-
-      this.locationMarker = L.marker(this.location, { icon: this.icons.gold }).addTo(this.map);
-      
-    });
-
-    
-    // combineLatest(
-    //   this.appService.featchTWGeo(),
-    //   this.appStoreService.city$,
-    // ).pipe(
-    //   map(res => {
-    //     return res;
-    //   })
-    // ).subscribe(res => {
-    //   if (!res[1]) { return; }
-
-    //   if (this.countryLayer) {
-    //     this.countryLayer.clearLayers();
-    //   }
-    //   const city = res[1];
-    //   const geo = res[0].filter(e => e.properties.name !== city);
-
-    //   this.countryLayer = L.geoJSON(null)
-    //     .addData(geo)
-    //     .addTo(this.map);
-    // })
-
-
+    this.map.setView(location, 12);
+    this.locationMarker = L.marker(location, { icon: this.icons.gold })
+      .addTo(this.map)
+      .bindPopup('your here')
+      .openPopup();
   }
-  ngAfterViewInit() { }
-  ngOnDestroy() {
-    this.location$.unsubscribe();
-  }
-
   renderMap(data: any) {
-
     if (this.group) {
       this.map.removeLayer(this.group);
     }
-
     if (this.countryLayer) {
       this.countryLayer.clearLayers();
     }
@@ -158,11 +136,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.addMarker(e);
     });
     this.map.addLayer(this.group);
+
     this.map.setView(data.curCity, 9);
+    if (this.prevPoint) {
+      this.map.removeLayer(this.prevPoint);
+    }
+
 
     this.countryLayer = L.geoJSON(null)
-        .addData(data.geoPolyogn)
-        .addTo(this.map);
+      .addData(data.geoPolyogn)
+      .addTo(this.map);
   }
 
   onPharmacy(info) {
@@ -184,7 +167,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.group.addLayer(marker);
   }
   customPopup(info) {
-    // console.log('customPopup', info)
     return `
       <div class="customPopup">
         <div class="customPopup__title">${ info.name}</div>
@@ -228,14 +210,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       shadowSize: [41, 41]
     });
   }
-  getPosition() {
-    navigator.geolocation.getCurrentPosition((data) => {
-      const latitude = data.coords.latitude;
-      const longitude = data.coords.longitude;
-      this.location$.next([latitude, longitude]);
-    });
-  }
-
 
 }
 

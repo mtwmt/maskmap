@@ -23,10 +23,15 @@
       </div>
     </div> -->
     <div class="search__select">
+      <!-- <div (click)="getNear()"> 附近</div> -->
       <h4>搜尋區域</h4>
       <div class="search__select-flex">
         <div class="search__select-city">
-          <select name="" id="city" (change)="onCityChange($event.target.value)">
+          <select
+            name=""
+            id="city"
+            [(ngModel)]="city"
+            (change)="onCityChange($event.target.value)">
             <option
               *ngFor="let item of appStoreService.getCityList$ | async"
               [(value)]="item.Name"

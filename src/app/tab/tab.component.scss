@@ -1,4 +1,3 @@
-
 @import "../../assets/common";
 
 %clear {
@@ -22,15 +21,13 @@
     position: absolute;
     transition: 0.5s;
     transform: translateY(0px);
-    &.active{
-
+    &.active {
       transform: translateY(60px);
     }
   }
 }
 
-
-.tab{
+.tab {
   position: relative;
   height: 100%;
   display: flex;
@@ -44,6 +41,9 @@
     width: 33.3333%;
     text-align: center;
     cursor: pointer;
+    p {
+      font-size: rem(14px);
+      line-height: 1.5;
+    }
   }
-
 }

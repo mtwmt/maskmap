@@ -16,37 +16,48 @@ export class SearchComponent implements OnInit {
   faSearch = faSearch;
   assetsUrl = environment.assetsUrl;
 
-  getTaiwanCity: Array<any>;
-  getTaiwanCityArea: Array<any>;
+  cityList: Array<any>;
 
-  city: string;
+  city: any;
   area: string;
+
+  pharmacy: Array<any>;
 
   mask = 'all';
 
   childTotal: number;
   adultTotal: number;
 
+  distList: Array<any>;
   constructor(
     private appService: AppService,
     public appStoreService: AppStoreService
   ) { }
 
   ngOnInit() {
-
-
     combineLatest(
       this.appService.fetchTaiwanCity(),
       this.appService.fetchPharmacy(),
       this.appService.featchTWGeo(),
+      this.appStoreService.location$,
     ).pipe(
       map(res => {
-        return [res[0], res[1], res[2]];
+        const obj = {
+          cityList: res[0],
+          pharmacyList: res[1],
+          twGeoList: res[2],
+          userLocal: res[3]
+        };
+        this.appStoreService.calDistance(obj.pharmacyList, obj.userLocal);
+        return obj;
       })
     ).subscribe(res => {
-      this.getTaiwanCity = res[0];
-      this.onCityChange('台北市');
-      // this.appStoreService.getPharmacy$.next( res[1] );
+
+      this.cityList = res.cityList;
+      this.distList = this.appStoreService.filterStore(res.pharmacyList, 2);
+      this.city = this.appStoreService.getCurCity(res.cityList, this.distList);
+      this.onCityChange(this.city);
+      this.appStoreService.setGeoPolygon(this.city);
     });
 
     this.appStoreService.getCalMask$.subscribe(res => {
@@ -54,16 +65,20 @@ export class SearchComponent implements OnInit {
       this.adultTotal = res.adultTotal;
     });
 
+    this.appStoreService.city$.subscribe(  res => {
+      this.city = res;
+    });
+
   }
+
+
 
   onCityChange(event: string) {
-    this.appStoreService.setAreaList(event);
     this.city = event;
-    // this.appStoreService.setPharmacyList(this.city);
     this.appStoreService.setLocal(this.city);
+    this.appStoreService.setAreaList(event);
   }
   onAreaChange(event?: string) {
-
     if (event === '全區') {
       this.area = '';
     } else {
@@ -78,4 +93,9 @@ export class SearchComponent implements OnInit {
   onSwitch() {
     this.appStoreService.setSideBar();
   }
+  // getNear() {
+  //   this.city = this.appStoreService.getCurCity(this.cityList, this.distList);
+  //   this.appStoreService.setPharmacyList(this.distList);
+  //   this.appStoreService.setGeoPolygon(this.city);
+  // }
 }

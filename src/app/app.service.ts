@@ -21,7 +21,7 @@ export class AppService {
   ) { }
 
 
-  fetchTaiwanCity(city?: string) {
+  fetchTaiwanCity() {
     return this.httpClient.get<any>(`${this.assetsUrl}/counties.json`)
       .pipe(
         map(res => {
@@ -32,12 +32,12 @@ export class AppService {
           return res;
         }),
         tap(res => {
-          this.appStoreService.setCityList(res);
+          this.appStoreService.allCityList(res);
         })
       )
   }
 
-  fetchPharmacy(area?: string) {
+  fetchPharmacy() {
     return this.httpClient.get<any>(this.url)
       .pipe(
         map(res => {
@@ -48,31 +48,21 @@ export class AppService {
           return res.features.filter(e => e.properties.mask_adult > 0 || e.properties.mask_child > 0);
         }),
         tap((res: any) => {
-          this.appStoreService.setPharmacy(res);
+          this.appStoreService.allPharmacyList(res);
         }),
-      )
+      );
   }
 
-  fetchlocal() {
-    const token = this.token;
-    const key = 'AIzaSyBGd0MP4HMs0p6dQ_xV6gt-5XBkZc4jmD8';
-    // const location = [-73.989, 40.733];
-    const location = [24.953750499999998, 121.34356229999999];
 
-    return this.httpClient.get<any>(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${location.join(',')}.json?routing=true&access_token=${token}`
-    )
-  }
-
-  featchTWGeo(city?: string) {
+  featchTWGeo() {
     return this.httpClient.get<any>(`${this.assetsUrl}/tw-county.geojson`)
       .pipe(
         map(res => {
           return res.features;
         }),
         tap(res => {
-          this.appStoreService.setGeoList(res);
+          this.appStoreService.allGeoList(res);
         })
-      )
+      );
   }
 }
