@@ -58,22 +58,25 @@ export class AppStoreService {
     });
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
   featchUserlocal() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((data) => {
-        this.location = data.coords;
-        this.location$.next(data.coords);
-        // this.location$.next({
-        //   latitude: 25.0032999,
-        //   longitude: 121.5540404
-        // });
-      });
-    } else {
-      console.log('google location error');
+    const success = (position) => {
+      this.location = position.coords;
+      this.location$.next(position.coords);
+    }
+    const error = () => {
       this.location$.next({
         latitude: 25.0032999,
         longitude: 121.5540404
       });
+      alert('您尚未定位');
+    };
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+      console.log('google location error');
+
     }
 
 
