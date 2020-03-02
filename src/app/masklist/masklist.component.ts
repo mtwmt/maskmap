@@ -19,8 +19,8 @@ export class MasklistComponent implements OnInit {
 
   ngOnInit() {
   }
-  // setInfo(pos: any, info: any ){
-  //   this.appStoreService.setPharmacyInfo( pos, info );
-  //   this.appStoreService.setSideBar();
-  // }
+  setInfo(pos: any, info: any ){
+    this.appStoreService.setPharmacyInfo( pos, info );
+    // this.appStoreService.setSideBar();
+  }
 }

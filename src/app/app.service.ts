@@ -32,7 +32,6 @@ export class AppService {
           return res;
         }),
         tap(res => {
-          console.log( 'fetchTaiwanCity',res )
           this.appStoreService.allCityList(res);
         })
       )

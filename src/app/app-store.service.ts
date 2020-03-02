@@ -23,7 +23,7 @@ export class AppStoreService {
   getPharmacy: any;
   getPharmacy$: Subject<any> = new Subject();
 
-  // getCurInfo$: Subject<any> = new Subject();
+  getCurInfo$: Subject<any> = new Subject();
   // getCalMask$: Subject<any> = new Subject();
 
   isSideBar = 'active';
@@ -103,11 +103,14 @@ export class AppStoreService {
 
   // 顯示距離內的藥局
   distancePharmacyList(distance: number, list: Array<any> = this.getAllPharmacy) {
-    this.getPharmacy = list.filter(e => {
+    const newList = list.filter(e => {
       return e.geometry.coordinates[2] <= distance;
     });
+
+    this.getPharmacy = this.sortPharmacyList(newList);
     this.getPharmacy$.next(this.getPharmacy);
     this.getCurCity(this.getCityList, this.getPharmacy);
+
   }
 
   setGeoPolygon(city?: string) {
@@ -120,10 +123,10 @@ export class AppStoreService {
   }
 
 
-  // setPharmacyInfo(pos, info) {
-  //   const newInfo = { ...info, coordinates: pos.coordinates };
-  //   this.getCurInfo$.next(newInfo);
-  // }
+  setPharmacyInfo(pos, info) {
+    const newInfo = { ...info, coordinates: [pos.coordinates[0], pos.coordinates[1]] };
+    this.getCurInfo$.next(newInfo);
+  }
   // // ===============
   // setMask(str: string) {
   //   let newList: any = [];
@@ -162,10 +165,6 @@ export class AppStoreService {
   //   });
   //   this.getCalMask$.next({ childTotal, adultTotal });
   // }
-
-
-
-
 
 
 

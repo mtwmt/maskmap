@@ -69,6 +69,8 @@ export class MapComponent implements OnInit {
       this.renderMap(res);
     });
 
+
+
     this.icons = {
       red: this.customIcon('red'),
       orange: this.customIcon('orange'),
@@ -92,20 +94,20 @@ export class MapComponent implements OnInit {
     //   position: 'topright'
     // }).addTo(this.map);
 
-//
-    // this.appStoreService.getCurInfo$.subscribe(res => {
-    //   this.onPharmacy(res);
-    // });
+    this.appStoreService.getCurInfo$.subscribe(res => {
+      this.onPharmacy(res);
+    });
 
     // if (this.locationMarker) {
     //   this.map.removeLayer(this.locationMarker);
     // }
   }
   initMap(location: any) {
+
     console.log('location', location)
     this.map = L.map('map', {
       center: location,
-      zoom: 13,
+      zoom: 10,
       zoomControl: false,
       layers: [L.tileLayer(
         'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
@@ -118,14 +120,16 @@ export class MapComponent implements OnInit {
       )]
     });
 
-    this.map.setView(location, 12);
+    this.map.setView(location, 10);
 
     this.locationMarker = L.marker(location, { icon: this.icons.gold })
       .addTo(this.map)
-      // .bindPopup('your here')
-      // .openPopup();
+    // .bindPopup('your here')
+    // .openPopup();
   }
   renderMap(data: any) {
+    // console.log('renderMap', data);
+
     if (this.group) {
       this.map.removeLayer(this.group);
     }
@@ -140,7 +144,9 @@ export class MapComponent implements OnInit {
     });
     this.map.addLayer(this.group);
 
-    this.map.setView(data.curCity, 9);
+    // this.map.setView(data.curCity, 9);
+    this.map.setView(data.curCity, 10);
+
     if (this.prevPoint) {
       this.map.removeLayer(this.prevPoint);
     }
@@ -153,7 +159,8 @@ export class MapComponent implements OnInit {
 
   onPharmacy(info) {
     this.map
-      .setView(info.coordinates, 13)
+      .setView(info.coordinates, 16)
+      // .panTo(info.coordinates, 16)
       .closePopup();
 
     if (this.prevPoint) {

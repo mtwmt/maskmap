@@ -15,6 +15,8 @@ export class SearchComponent implements OnInit {
   assetsUrl = environment.assetsUrl;
   faSearch = faSearch;
 
+  list: Array<any>;
+  value;
   constructor(
     private appService: AppService,
     public appStoreService: AppStoreService
@@ -22,9 +24,30 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
 
+    this.appStoreService.getPharmacy$.subscribe(res => {
+      this.list = res;
+    })
+
+    // console.log('aaa', )
   }
-  search(){
-    console.log(123)
+  search(e) {
+
+    const val = this.value;
+
+    let filterList;
+    if (e.key === 'Enter' || e.type === 'click') {
+
+      if (!val) {
+        filterList = this.appStoreService.getPharmacy;
+      } else {
+        filterList = this.list.filter(e => e.properties.name.match(val));
+      }
+      if (filterList.length > 0) {
+        this.appStoreService.getPharmacy$.next(filterList);
+      } else {
+        alert('查無藥局');
+      }
+    }
   }
 
 }
