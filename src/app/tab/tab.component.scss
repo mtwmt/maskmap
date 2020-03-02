@@ -9,7 +9,8 @@
 }
 
 :host {
-  display: none;
+  // display: none;
+  position: absolute;
   width: 100%;
   height: 60px;
   z-index: 9999;
@@ -18,11 +19,11 @@
 
   @media (max-width: 800px) {
     display: block;
-    position: absolute;
+    height: 50px;
     transition: 0.5s;
     transform: translateY(0px);
     &.active {
-      transform: translateY(60px);
+      transform: translateY(50px);
     }
   }
 }
@@ -35,15 +36,21 @@
   align-items: center;
   background: #e0e0e0;
 
-  &__search,
-  &__maskinfo,
-  &__info {
+  &__icon {
     width: 33.3333%;
     text-align: center;
     cursor: pointer;
     p {
-      font-size: rem(14px);
+      font-size: rem(12px);
       line-height: 1.5;
+    }
+    fa-icon {
+      font-size: rem(24px);
+    }
+    figure{
+      img {
+        height: rem(22px);
+      }
     }
   }
 }

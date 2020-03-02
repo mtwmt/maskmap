@@ -32,6 +32,7 @@ export class MapComponent implements OnInit {
   group: L.MarkerClusterGroup;
   icons: any;
   prevPoint: any;
+  isLocal;
   location;
   countryLayer = null;
   locationMarker;
@@ -41,6 +42,7 @@ export class MapComponent implements OnInit {
     public appService: AppService,
     public appStoreService: AppStoreService
   ) {
+
 
     combineLatest(
       this.appStoreService.getPharmacy$,
@@ -53,7 +55,6 @@ export class MapComponent implements OnInit {
           total.push({ ...el.properties, coordinates: el.geometry.coordinates });
           return total;
         }, []);
-
         return {
           pharmacyPoint: info,
           geoPolyogn: res[1].localGeo,
@@ -91,20 +92,21 @@ export class MapComponent implements OnInit {
     //   position: 'topright'
     // }).addTo(this.map);
 
+//
+    // this.appStoreService.getCurInfo$.subscribe(res => {
+    //   this.onPharmacy(res);
+    // });
 
-    this.appStoreService.getCurInfo$.subscribe(res => {
-      this.onPharmacy(res);
-    });
-
-    if (this.locationMarker) {
-      this.map.removeLayer(this.locationMarker);
-    }
+    // if (this.locationMarker) {
+    //   this.map.removeLayer(this.locationMarker);
+    // }
   }
   initMap(location: any) {
+    console.log('location', location)
     this.map = L.map('map', {
       center: location,
       zoom: 13,
-      // zoomControl: false,
+      zoomControl: false,
       layers: [L.tileLayer(
         'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
         {
@@ -117,10 +119,11 @@ export class MapComponent implements OnInit {
     });
 
     this.map.setView(location, 12);
+
     this.locationMarker = L.marker(location, { icon: this.icons.gold })
       .addTo(this.map)
-      .bindPopup('your here')
-      .openPopup();
+      // .bindPopup('your here')
+      // .openPopup();
   }
   renderMap(data: any) {
     if (this.group) {

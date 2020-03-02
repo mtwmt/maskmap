@@ -1,14 +1,18 @@
 <div class="tab">
-  <div class="tab__search" (click)="onSearch()">
-    <fa-icon [icon]="faSearch" size="2x" style="color:#4F4F4F"></fa-icon>
-    <p>搜尋</p>
+  <div class="tab__icon" (click)="onList()">
+    <fa-icon [icon]="faList" style="color:#4F4F4F"></fa-icon>
+    <p>列表</p>
   </div>
-  <div class="tab__maskinfo" (click)="onMaskinfo()">
+  <div class="tab__icon" (click)="onMap()">
+    <fa-icon [icon]="faMapMarkedAlt" style="color:#4F4F4F"></fa-icon>
+    <p>地圖</p>
+  </div>
+  <div class="tab__icon" (click)="onMaskinfo()">
     <figure><img src="{{ assetsUrl }}/mask.svg" /></figure>
     <p>口罩資訊</p>
   </div>
-  <div class="tab__info" (click)="onNear()">
-    <fa-icon [icon]="faHome" size="2x" style="color:#4F4F4F"></fa-icon>
+  <div class="tab__icon" (click)="onNear()">
+    <fa-icon [icon]="faHome" style="color:#4F4F4F"></fa-icon>
     <p>附近藥局</p>
   </div>
 </div>

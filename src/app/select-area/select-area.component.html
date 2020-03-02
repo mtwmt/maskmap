@@ -1,0 +1,29 @@
+<div class="app-select-area">
+  <!-- <div (click)="getNear()"> 附近</div> -->
+  <h4  (click)="dragStarted($event)">搜尋區域</h4>
+  <div class="app-select-area__flex">
+    <div class="app-select-area__city">
+      <select
+        name=""
+        id="city"
+        [(ngModel)]="city"
+        (change)="onCityChange($event.target.value)">
+        <option
+          *ngFor="let item of appStoreService.getCityList$ | async"
+          [(value)]="item.Name"
+          >{{ item.Name }}</option
+        >
+      </select>
+    </div>
+    <div class="app-select-area__area">
+      <select name="" id="zone" (change)="onAreaChange($event.target.value)">
+        <option>全區</option>
+        <option
+          *ngFor="let item of appStoreService.getAreaList$ | async"
+          [(value)]="item.Name"
+          >{{ item.Name }}</option
+        >
+      </select>
+    </div>
+  </div>
+</div>

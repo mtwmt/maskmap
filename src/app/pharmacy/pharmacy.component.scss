@@ -1,0 +1,39 @@
+@import "../../assets/common";
+
+%clear {
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+
+:host {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  bottom: -100%;
+  left: 0;
+  background: #fff;
+  border-radius: rem(10px) rem(10px) 0 0;
+  transition: 0.5s;
+  padding-top: 0px;
+  &.maskmap--active {
+    bottom: calc(-100% + 180px);
+  }
+  &.maskmap--open {
+    bottom: 0%;
+    padding-top: 16px;
+  }
+  @media (min-width: 800px) {
+    bottom: 0%;
+    padding-top: 16px;
+    width: 320px;
+    &.maskmap--active {
+      bottom: 0%;
+      padding-top: 16px;
+    }
+
+  }
+}

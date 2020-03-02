@@ -11,6 +11,9 @@ import { MasklistComponent } from './masklist/masklist.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { TabComponent } from './tab/tab.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { PharmacyComponent } from './pharmacy/pharmacy.component';
+import { SelectAreaComponent } from './select-area/select-area.component';
 
 // import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
@@ -21,7 +24,10 @@ import { TabComponent } from './tab/tab.component';
     SearchComponent,
     MasklistComponent,
     SpinnerComponent,
-    TabComponent
+    TabComponent,
+    SidebarComponent,
+    PharmacyComponent,
+    SelectAreaComponent
   ],
   imports: [
     BrowserModule,

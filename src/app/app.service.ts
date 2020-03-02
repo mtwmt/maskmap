@@ -32,6 +32,7 @@ export class AppService {
           return res;
         }),
         tap(res => {
+          console.log( 'fetchTaiwanCity',res )
           this.appStoreService.allCityList(res);
         })
       )
@@ -44,15 +45,19 @@ export class AppService {
           res.features.map(e => {
             e.geometry.coordinates = e.geometry.coordinates.reverse();
             e.properties.phone = e.properties.phone.replace(/\s*/g, '');
-          })
+            if (e.properties.address.match('臺')) {
+              e.properties.address = e.properties.address.replace('臺', '台')
+            }
+          });
+
           return res.features.filter(e => e.properties.mask_adult > 0 || e.properties.mask_child > 0);
         }),
         tap((res: any) => {
+
           this.appStoreService.allPharmacyList(res);
         }),
       );
   }
-
 
   featchTWGeo() {
     return this.httpClient.get<any>(`${this.assetsUrl}/tw-county.geojson`)

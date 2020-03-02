@@ -1,0 +1,89 @@
+<div class="sidebar__bg"
+  (click)="onSwitch()"
+  [ngClass]="{ 'active': appStoreService.isSideBar$ | async }"
+></div>
+<div class="sidebar" [ngClass]="{ 'active': appStoreService.isSideBar$ | async }">
+  <div class="sidebar__header">
+    <div class="sidebar__icon" (click)="onSwitch()">
+      <fa-icon [icon]="faSearch"></fa-icon>
+    </div>
+    <!-- <figure><img src= "{{assetsUrl}}/nhi.svg"/></figure>
+    <div class="sidebar__flex">
+      <div class="sidebar__info">
+        <figure><img src= "{{assetsUrl}}/calendar.svg"/></figure>
+        <p><span class="num">7</span>天一次</p>
+      </div>
+      <div class="sidebar__info">
+        <figure><img src= "{{assetsUrl}}/mask.svg"/></figure>
+        <p>限購<span class="num">2</span>片</p>
+      </div>
+      <div class="sidebar__info">
+        <figure><img src= "{{assetsUrl}}/card.svg"/></figure>
+        <p>代購<span class="num">1</span>卡</p>
+      </div>
+    </div> -->
+    <div class="sidebar__select">
+      <!-- <div (click)="getNear()"> 附近</div> -->
+      <h4>搜尋區域</h4>
+      <div class="sidebar__select-flex">
+        <div class="sidebar__select-city">
+          <select
+            name=""
+            id="city"
+            [(ngModel)]="city"
+            (change)="onCityChange($event.target.value)">
+            <option
+              *ngFor="let item of appStoreService.getCityList$ | async"
+              [(value)]="item.Name"
+              >{{ item.Name }}</option
+            >
+          </select>
+        </div>
+        <div class="sidebar__select-area">
+          <select name="" id="zone" (change)="onAreaChange($event.target.value)">
+            <option>全區</option>
+            <option
+              *ngFor="let item of appStoreService.getAreaList$ | async"
+              [(value)]="item.Name"
+              >{{ item.Name }}</option
+            >
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sidebar__body">
+    <app-masklist></app-masklist>
+    <!-- <div class="sidebar__mask">
+      <div class="sidebar__mask-flex">
+        <h4>{{ city }}{{ area }} <span>口罩總量：{{ childTotal + adultTotal }}</span></h4>
+        <span
+          class="sidebar__mask-all"
+          (click)="onMask('all')"
+           [ngClass]="{ 'isAct': mask === 'all' }"
+        >ALL</span>
+      </div>
+
+      <div class="sidebar__mask-flex">
+        <div class="sidebar__mask-child" (click)="onMask('child')"
+          [ngClass]="{ 'isAct': mask === 'child' }"
+        >
+          <img src= "{{assetsUrl}}/child.svg"/>
+        </div>
+        <div class="sidebar__mask-adult" (click)="onMask('adult')"
+          [ngClass]="{ 'isAct': mask === 'adult' }"
+        >
+          <img src= "{{assetsUrl}}/adult.svg"/>
+        </div>
+        <div class="sidebar__mask-both" (click)="onMask('both')"
+          [ngClass]="{ 'isAct': mask === 'both' }"
+        >
+          <img src= "{{assetsUrl}}/both.svg"/>
+        </div>
+      </div>
+      <div class="sidebar__mask-total">
+        <p> <span>小孩口罩：{{ childTotal }}</span><span>成人口罩：{{ adultTotal }}</span></p>
+      </div>
+    </div> -->
+  </div>
+</div>
