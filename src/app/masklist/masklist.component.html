@@ -7,7 +7,7 @@
     *ngFor="let item of appStoreService.getPharmacy$ | async; let idx = index"
     (click)="setInfo(item.geometry, item.properties)"
   >
-    <div class="pharmacy__title">{{ item.properties.name }}</div>
+    <div class="pharmacy__title">{{ item.properties.name }} <span [ngClass]="openClass[item.properties.open]">{{ openStr[item.properties.open] }}</span></div>
     <div class="pharmacy__block-left">
       <div class="pharmacy__addr">{{ item.properties.address }}</div>
       <div class="pharmacy__phone">{{ item.properties.phone }}</div>

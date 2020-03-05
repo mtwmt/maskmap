@@ -51,6 +51,19 @@
     font-size: rem(18px);
     font-weight: bold;
     line-height: rem(27px);
+    span {
+      font-size: rem(14px);
+      font-weight: normal;
+      &.opening {
+        color: green;
+      }
+      &.comingsoon {
+        color: yellow;
+      }
+      &.close {
+        color: red;
+      }
+    }
   }
   &__addr {
     font-size: rem(12px);

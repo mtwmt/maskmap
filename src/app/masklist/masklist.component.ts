@@ -12,6 +12,9 @@ export class MasklistComponent implements OnInit {
 
   assetsUrl = environment.assetsUrl;
 
+  openClass = ['opening', 'comingsoon', 'close'];
+  openStr = ['營業中', '即將休息', '休息中'];
+
   constructor(
     public appService: AppService,
     public appStoreService: AppStoreService

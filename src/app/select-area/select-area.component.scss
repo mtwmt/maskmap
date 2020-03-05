@@ -17,12 +17,20 @@
   margin-top: rem(8px);
   padding: 0 rem(16px);
   h4 {
+    @extend %clear;
     padding-left: rem(10px);
     letter-spacing: 3px;
     color: #4f4f4f;
     font-weight: bold;
     font-size: rem(24px);
     line-height: 1.5;
+    span {
+      position: relative;
+      top: rem(6px);
+      font-size: rem(14px);
+      font-weight: normal;
+      float: right;
+    }
   }
   &__city,
   &__area {

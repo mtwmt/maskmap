@@ -47,12 +47,12 @@ export class AppService {
             if (e.properties.address.match('臺')) {
               e.properties.address = e.properties.address.replace('臺', '台')
             }
+            e.properties.open = this.appStoreService.getOpenTime(e.properties.service_periods);
+            // console.log('open',e.properties.available)
           });
-
           return res.features.filter(e => e.properties.mask_adult > 0 || e.properties.mask_child > 0);
         }),
         tap((res: any) => {
-
           this.appStoreService.allPharmacyList(res);
         }),
       );

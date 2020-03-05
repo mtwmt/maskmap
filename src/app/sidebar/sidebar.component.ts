@@ -80,9 +80,7 @@ export class SidebarComponent implements OnInit {
       this.area = districts;
     }
     this.appStoreService.setPharmacyList(this.city, this.area);
-    console.log('districts', districts)
 
-    // this.appStoreService.setLocal(this.city, this.area);
   }
   // onMask(str: string) {
   //   this.mask = str;

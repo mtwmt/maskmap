@@ -11,7 +11,7 @@
     <figure><img src="{{ assetsUrl }}/mask.svg" /></figure>
     <p>口罩資訊</p>
   </div>
-  <div class="tab__icon" (click)="onNear()">
+  <div class="tab__icon" (click)="onNear()" *ngIf="(appStoreService.location$ | async)?.accuracy ">
     <fa-icon [icon]="faHome" style="color:#4F4F4F"></fa-icon>
     <p>附近藥局</p>
   </div>

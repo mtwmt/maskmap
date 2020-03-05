@@ -51,6 +51,7 @@ export class MapComponent implements OnInit {
     ).pipe(
       map(res => {
         if (!res[0] || !res[1]) { return; }
+
         const info = res[0].reduce((total, el) => {
           total.push({ ...el.properties, coordinates: el.geometry.coordinates });
           return total;
@@ -59,12 +60,14 @@ export class MapComponent implements OnInit {
           pharmacyPoint: info,
           geoPolyogn: res[1].localGeo,
           curCity: [res[1].localCityPos[0].Latitude, res[1].localCityPos[0].Longitude],
-          location: [res[2].latitude, res[2].longitude]
+          location: res[2]
         }
       })
     ).subscribe(res => {
       if (!res) { return; }
-      this.location = res.location;
+      this.location = [res.location.latitude, res.location.longitude];
+      this.isLocal = res.location.accuracy;
+
       if (!this.map) { this.initMap(this.location) }
       this.renderMap(res);
     });
@@ -122,10 +125,18 @@ export class MapComponent implements OnInit {
 
     this.map.setView(location, 10);
 
-    this.locationMarker = L.marker(location, { icon: this.icons.gold })
-      .addTo(this.map)
-    // .bindPopup('your here')
-    // .openPopup();
+
+    console.log('location', this.isLocal)
+
+    if (this.isLocal) {
+      this.locationMarker = L.marker(location, { icon: this.icons.gold })
+        .addTo(this.map)
+      // .bindPopup('your here')
+      // .openPopup();
+    }
+
+
+
   }
   renderMap(data: any) {
     // console.log('renderMap', data);

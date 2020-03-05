@@ -35,8 +35,12 @@ export class AppComponent {
         return obj;
       })
     ).subscribe(res => {
-      this.appStoreService.distancePharmacyList(2, res.pharmacyList);
-
+      if (res.userLocal.accuracy) {
+        this.appStoreService.distancePharmacyList(2, res.pharmacyList);
+      } else {
+        this.appStoreService.city$.next('台北市');
+        this.appStoreService.setPharmacyList('台北市');
+      }
     });
   }
 

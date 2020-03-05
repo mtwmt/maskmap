@@ -20,8 +20,6 @@ export class SelectAreaComponent implements OnInit {
     this.appStoreService.city$.subscribe(res => {
       this.city = res;
     });
-
-    // console.log(123, this.elementRef)
   }
   dragStarted( e ){
     this.appStoreService.isSideBar$.next('open');

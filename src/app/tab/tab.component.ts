@@ -25,8 +25,7 @@ export class TabComponent implements OnInit {
     public appStoreService: AppStoreService,
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   onSearch() {
     // this.appStoreService.setSideBar();
   }

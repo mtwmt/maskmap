@@ -2,10 +2,17 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AppService } from './app.service';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class AppStoreService {
+
+  nowHour = new Date().getHours();
+  getWeeklyDay = new Date().getDay(); // 得到星期幾
+  hoursLimit = [8, 12, 17, 22]; // 上午 下午 晚上分界
+  iHour = -1; // hoursLimit idx
+
   city: string;
   city$: BehaviorSubject<any> = new BehaviorSubject(this.city);
 
@@ -36,17 +43,17 @@ export class AppStoreService {
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
   featchUserlocal() {
+
     const success = (position) => {
       this.location = position.coords;
       this.location$.next(position.coords);
     }
     const error = () => {
-      // this.location$.next(null)
 
       this.location$.next({
         latitude: 25.0032999,
         longitude: 121.5540404,
-        isErroe: true
+        accuracy: null
       });
       console.log('location error');
     };
@@ -64,17 +71,11 @@ export class AppStoreService {
   }
 
   allPharmacyList(ary?: Array<any>) {
+
     this.getAllPharmacy = ary;
     this.getAllPharmacy$.next(ary);
   }
 
-
-  // setLocal(city: string, area?: string) {
-  //   this.city = city;
-  //   this.city$.next(city);
-  //   this.setPharmacyList(this.getAllPharmacy, city, area);
-  //   this.setGeoPolygon(city);
-  // }
 
   setAreaList(city: string = this.city) {
     this.getAreaList = this.getCityList.filter((e: any) => e.Name === city);
@@ -110,7 +111,6 @@ export class AppStoreService {
     this.getPharmacy = this.sortPharmacyList(newList);
     this.getPharmacy$.next(this.getPharmacy);
     this.getCurCity(this.getCityList, this.getPharmacy);
-
   }
 
   setGeoPolygon(city?: string) {
@@ -218,5 +218,34 @@ export class AppStoreService {
       }
     }
   }
+  getOpenTime(time) {
+    this.getIHour();
 
+
+    const openTimeIdx = this.getWeeklyDay - 1 + this.iHour * 7;
+    const openTime_now = time[openTimeIdx];
+    const openTime_nextH = time[openTimeIdx + 1];
+
+    if (this.iHour === -1) {
+      return 2;
+    }
+    if (openTime_now === 'Y') {
+      // rest
+      return 2;
+    } else {
+      // now open , to tell next hour
+      return openTime_nextH === 'N' ? 0 : 1;
+    }
+
+  }
+  // 得到 iHour
+  getIHour() {
+    for (const keyH in this.hoursLimit) {
+      if (this.nowHour - this.hoursLimit[keyH] < 0) {
+      // if (9 - this.vHours[keyH] < 0) {
+        this.iHour = +keyH - 1;
+        break;
+      }
+    }
+  }
 }
