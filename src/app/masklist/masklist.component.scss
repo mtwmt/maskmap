@@ -8,9 +8,6 @@
   }
 }
 
-
-
-
 // :host {
 //   position: absolute;
 //   left: 0;
@@ -47,6 +44,12 @@
     background: #fff;
     cursor: pointer;
   }
+  &__sort {
+    margin: 0 rem(10px);
+    padding: rem(8px) rem(10px);
+    display: flex;
+    justify-content: space-around;
+  }
   &__title {
     font-size: rem(18px);
     font-weight: bold;
@@ -80,6 +83,7 @@
     font-size: rem(24px);
     font-weight: bold;
     color: #828282;
+    text-align: center;
     img {
       height: rem(40px);
     }
