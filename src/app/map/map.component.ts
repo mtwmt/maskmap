@@ -131,8 +131,8 @@ export class MapComponent implements OnInit {
     if (this.isLocal) {
       this.locationMarker = L.marker(location, { icon: this.icons.gold })
         .addTo(this.map)
-      // .bindPopup('your here')
-      // .openPopup();
+        .bindPopup('your here')
+        .openPopup();
     }
 
 

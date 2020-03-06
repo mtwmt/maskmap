@@ -3,16 +3,19 @@
     <app-spinner></app-spinner>
   </div>
   <div class="pharmacy__sort">
-    <span>距離</span>
-    <span>兒童</span>
-    <span>成人</span>
+    <span (click)="onDistance()">距離</span>
+    <span (click)="onChild()">兒童</span>
+    <span (click)="onAdult()">成人</span>
   </div>
   <div
     class="pharmacy__wrap"
     *ngFor="let item of appStoreService.getPharmacy$ | async; let idx = index"
     (click)="setInfo(item.geometry, item.properties)"
   >
-    <div class="pharmacy__title">{{ item.properties.name }} <span [ngClass]="openClass[item.properties.open]">{{ openStr[item.properties.open] }}</span></div>
+    <div class="pharmacy__title">{{ item.properties.name }}
+      <span class="distance">{{ item.properties.distance }}</span>
+
+    </div>
     <div class="pharmacy__block-left">
       <div class="pharmacy__addr">{{ item.properties.address }}</div>
       <div class="pharmacy__phone">{{ item.properties.phone }}</div>
@@ -27,6 +30,10 @@
         <p>{{ item.properties.mask_adult }}</p>
       </div>
     </div>
-    <div class="pharmacy__updated">更新時間：{{item.properties.updated}}</div>
+
+    <div class="pharmacy__footer">
+      <span>更新時間：{{item.properties.updated}}</span>
+      <span [ngClass]="openClass[item.properties.open]">{{ openStr[item.properties.open] }}</span>
+    </div>
   </div>
 </div>

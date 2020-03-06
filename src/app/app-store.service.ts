@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { AppService } from './app.service';
-
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +10,8 @@ export class AppStoreService {
   getWeeklyDay = new Date().getDay(); // 得到星期幾
   hoursLimit = [8, 12, 17, 22]; // 上午 下午 晚上分界
   iHour = -1; // hoursLimit idx
+
+
 
   city: string;
   city$: BehaviorSubject<any> = new BehaviorSubject(this.city);
@@ -43,13 +43,12 @@ export class AppStoreService {
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
   featchUserlocal() {
-
     const success = (position) => {
       this.location = position.coords;
       this.location$.next(position.coords);
     }
     const error = () => {
-
+      alert('定位錯誤');
       this.location$.next({
         latitude: 25.0032999,
         longitude: 121.5540404,
@@ -57,7 +56,6 @@ export class AppStoreService {
       });
       console.log('location error');
     };
-
     navigator.geolocation.getCurrentPosition(success, error);
   }
 
@@ -112,7 +110,7 @@ export class AppStoreService {
     this.getPharmacy$.next(this.getPharmacy);
     this.getCurCity(this.getCityList, this.getPharmacy);
 
-    console.log(123,this.getPharmacy)
+    console.log('dist', this.getPharmacy);
   }
 
   setGeoPolygon(city?: string) {
@@ -129,59 +127,47 @@ export class AppStoreService {
     const newInfo = { ...info, coordinates: [pos.coordinates[0], pos.coordinates[1]] };
     this.getCurInfo$.next(newInfo);
   }
-  // // ===============
-  // setMask(str: string) {
-  //   let newList: any = [];
-  //   if (str === 'child') {
-  //     newList = this.getPharmacy.filter(e => e.properties.mask_child > 0)
-  //       .sort((a: any, b: any) => {
-  //         return (+a.properties.mask_child) < + (+b.properties.mask_child) ? 1 : -1;
-  //       });
-  //   } else if (str === 'adult') {
-  //     newList = this.getPharmacy.filter(e => e.properties.mask_adult > 0)
-  //       .sort((a: any, b: any) => {
-  //         return (+a.properties.mask_adult) < (+b.properties.mask_adult) ? 1 : -1;
-  //       });
-  //   } else if (str === 'both') {
-  //     newList = this.getPharmacy.filter(e => e.properties.mask_child > 0 && e.properties.mask_adult > 0)
-  //       .sort((a: any, b: any) => {
-  //         return (+a.properties.mask_adult) + (+a.properties.mask_child) < (+b.properties.mask_adult) + (+b.properties.mask_child) ? 1 : -1;
-  //       });
-  //   } else if (str === 'all') {
-  //     newList = this.getPharmacy.filter(e => e.properties.mask_child > 0 || e.properties.mask_adult > 0)
-  //       .sort((a: any, b: any) => {
-  //         return (+a.properties.mask_adult) + (+a.properties.mask_child) < (+b.properties.mask_adult) + (+b.properties.mask_child) ? 1 : -1;
-  //       });
-  //   }
-  //   this.getPharmacy$.next(newList);
-  // }
 
-  // setCalMask(list: Array<any>) {
-  //   let childTotal = 0;
-  //   let adultTotal = 0;
-
-  //   list.map(e => {
-  //     childTotal += e.properties.mask_child;
-  //     adultTotal += e.properties.mask_adult;
-
-  //   });
-  //   this.getCalMask$.next({ childTotal, adultTotal });
-  // }
-
-
+  // 距離排序
+  setDistance(list: Array<any> = this.getPharmacy) {
+    list.sort((a: any, b: any) => a.geometry.coordinates[2] > b.geometry.coordinates[2] ? 1 : -1);
+  }
+  // 兒童排序
+  setChild(list: Array<any> = this.getPharmacy) {
+    list.sort((a: any, b: any) => a.properties.mask_child < b.properties.mask_child ? 1 : -1);
+  }
+  // 成人排序
+  setAdult(list: Array<any> = this.getPharmacy) {
+    list.sort((a: any, b: any) => a.properties.mask_adult < b.properties.mask_adult ? 1 : -1);
+  }
 
   // 計算距離
   calDistance(list: Array<any>, location) {
+    const EARTH_RADIUS = 6378.137;
+
     const userLatitude = location.latitude;
     const userLongitude = location.longitude;
     list.map(e => {
       const storeLatitude = e.geometry.coordinates[0];
       const storeLongitude = e.geometry.coordinates[1];
 
-      const a = storeLongitude - userLongitude;
-      const b = storeLatitude - userLatitude;
-      const distance = Math.sqrt(a * a + b * b) * 111;
-      e.geometry.coordinates[2] = distance;
+      const dLat = (storeLongitude - userLongitude) * Math.PI / 180;
+      const dLon = (storeLatitude - userLatitude) * Math.PI / 180;
+
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(userLatitude * Math.PI / 180) * Math.cos(storeLatitude * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const d = EARTH_RADIUS * c;
+
+      if (d > 1) {
+        e.properties.distance = d.toFixed(2) + 'km';
+      } else if (d <= 1) {
+        e.properties.distance = Math.round(d * 1000) + 'm';
+      }
+
+      e.geometry.coordinates[2] = d;
     });
   }
 
@@ -244,7 +230,7 @@ export class AppStoreService {
   getIHour() {
     for (const keyH in this.hoursLimit) {
       if (this.nowHour - this.hoursLimit[keyH] < 0) {
-      // if (9 - this.vHours[keyH] < 0) {
+        // if (9 - this.vHours[keyH] < 0) {
         this.iHour = +keyH - 1;
         break;
       }
