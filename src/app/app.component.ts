@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { AppStoreService } from './app-store.service';
 import { AppService } from './app.service';
-import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable, interval, concat, forkJoin, of, timer } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -22,26 +22,22 @@ export class AppComponent {
       this.appService.fetchTaiwanCity(),
       this.appService.fetchPharmacy(),
       this.appService.featchTWGeo(),
-      this.appStoreService.location$,
+      this.appStoreService.location$
     ).pipe(
-      map(res => {
-        const obj = {
-          cityList: res[0],
-          pharmacyList: res[1],
-          twGeoList: res[2],
-          userLocal: res[3]
-        };
-        this.appStoreService.calDistance(obj.pharmacyList, obj.userLocal);
-        return obj;
+      map(([city, list, geo, local]) => {
+        this.appStoreService.calDistance(list, local);
+        return [city, list, geo, local];
       })
-    ).subscribe(res => {
-      if (res.userLocal.accuracy) {
-        this.appStoreService.distancePharmacyList(2, res.pharmacyList);
+    ).subscribe(([city, list, geo, local]) => {
+
+      if (local.accuracy) {
+        this.appStoreService.distancePharmacyList(2, list);
       } else {
         this.appStoreService.city$.next('台北市');
         this.appStoreService.setPharmacyList('台北市');
       }
     });
+
   }
 
 }

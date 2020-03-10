@@ -33,7 +33,7 @@ export class AppStoreService {
   getCurInfo$: Subject<any> = new Subject();
   // getCalMask$: Subject<any> = new Subject();
 
-  isSideBar = 'open';
+  isSideBar = 'close';
   isSideBar$: BehaviorSubject<any> = new BehaviorSubject(this.isSideBar);
 
   location: any;
@@ -110,7 +110,6 @@ export class AppStoreService {
     this.getPharmacy$.next(this.getPharmacy);
     this.getCurCity(this.getCityList, this.getPharmacy);
 
-    console.log('dist', this.getPharmacy);
   }
 
   setGeoPolygon(city?: string) {

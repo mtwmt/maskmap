@@ -26,9 +26,7 @@ export class SearchComponent implements OnInit {
 
     this.appStoreService.getPharmacy$.subscribe(res => {
       this.list = res;
-    })
-
-    // console.log('aaa', )
+    });
   }
   search(e) {
 
@@ -43,6 +41,7 @@ export class SearchComponent implements OnInit {
         filterList = this.list.filter(e => e.properties.name.match(val));
       }
       if (filterList.length > 0) {
+        console.log('filterList', filterList)
         this.appStoreService.getPharmacy$.next(filterList);
         this.appStoreService.isSideBar$.next('open');
       } else {

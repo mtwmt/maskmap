@@ -3,7 +3,7 @@ import { AppService } from '../app.service';
 import { AppStoreService } from '../app-store.service';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { combineLatest } from 'rxjs';
 
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
@@ -72,8 +72,6 @@ export class MapComponent implements OnInit {
       this.renderMap(res);
     });
 
-
-
     this.icons = {
       red: this.customIcon('red'),
       orange: this.customIcon('orange'),
@@ -105,9 +103,8 @@ export class MapComponent implements OnInit {
     //   this.map.removeLayer(this.locationMarker);
     // }
   }
-  initMap(location: any) {
+  initMap(location) {
 
-    console.log('location', location)
     this.map = L.map('map', {
       center: location,
       zoom: 10,
@@ -125,9 +122,6 @@ export class MapComponent implements OnInit {
 
     this.map.setView(location, 10);
 
-
-    console.log('location', this.isLocal)
-
     if (this.isLocal) {
       this.locationMarker = L.marker(location, { icon: this.icons.gold })
         .addTo(this.map)
@@ -135,11 +129,12 @@ export class MapComponent implements OnInit {
         .openPopup();
     }
 
-
-
+  }
+  creatMarker( loacl ){
+    const marker = L.marker(loacl, { icon: this.icons.grey });
+    this.group.addLayer(marker);
   }
   renderMap(data: any) {
-    // console.log('renderMap', data);
 
     if (this.group) {
       this.map.removeLayer(this.group);
