@@ -1,9 +1,20 @@
 <div class="pharmacy">
-  <div *ngIf="!(appStoreService.getPharmacy$ | async)?.length ">
+  <div *ngIf="!(appStoreService.getPharmacy$ | async)?.length">
     <app-spinner></app-spinner>
   </div>
   <div class="pharmacy__sort">
-    <span (click)="onDistance()" *ngIf="(appStoreService.location$ | async)?.accuracy">距離</span>
+    <span
+      (click)="onDistance()"
+      *ngIf="(appStoreService.location$ | async)?.accuracy"
+    >
+      距離
+      <input
+        type="text"
+        [value]="appStoreService.distanceRange"
+        (keyup)="setDistance($event.target)"
+      />
+      km
+    </span>
     <span (click)="onChild()">兒童</span>
     <span (click)="onAdult()">成人</span>
   </div>
@@ -12,9 +23,9 @@
     *ngFor="let item of appStoreService.getPharmacy$ | async; let idx = index"
     (click)="setInfo(item.geometry, item.properties)"
   >
-    <div class="pharmacy__title">{{ item.properties.name }}
+    <div class="pharmacy__title">
+      {{ item.properties.name }}
       <span class="distance">{{ item.properties.distance }}</span>
-
     </div>
     <div class="pharmacy__block-left">
       <div class="pharmacy__addr">{{ item.properties.address }}</div>
@@ -22,18 +33,20 @@
     </div>
     <div class="pharmacy__block-right">
       <div class="pharmacy__child">
-      <img src= "{{assetsUrl}}/child.svg"/>
+        <img src="{{ assetsUrl }}/child.svg" />
         <p>{{ item.properties.mask_child }}</p>
       </div>
       <div class="pharmacy__adult">
-        <img src="{{assetsUrl}}/adult.svg" />
+        <img src="{{ assetsUrl }}/adult.svg" />
         <p>{{ item.properties.mask_adult }}</p>
       </div>
     </div>
 
     <div class="pharmacy__footer">
-      <span>更新時間：{{item.properties.updated}}</span>
-      <span [ngClass]="openClass[item.properties.open]">{{ openStr[item.properties.open] }}</span>
+      <span>更新時間：{{ item.properties.updated }}</span>
+      <span [ngClass]="openClass[item.properties.open]">{{
+        openStr[item.properties.open]
+      }}</span>
     </div>
   </div>
 </div>

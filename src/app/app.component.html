@@ -1,10 +1,8 @@
 <div class="maskmap">
   <app-map></app-map>
-  <!-- <app-sidebar></app-sidebar> -->
   <app-pharmacy
     [ngClass]=" 'maskmap--' + (appStoreService.isSideBar$ | async)"
   ></app-pharmacy>
   <app-search></app-search>
   <app-tab></app-tab>
-  <!-- <app-tab [ngClass]="{ 'active': appStoreService.isSideBar$ | async }"></app-tab> -->
 </div>

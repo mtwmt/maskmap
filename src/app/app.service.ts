@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, tap, debounceTime } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { AppStoreService } from './app-store.service';
 import { environment } from 'src/environments/environment';
-import { interval, timer } from 'rxjs';
-import { element } from 'protractor';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -30,9 +29,6 @@ export class AppService {
             e.Districts.sort((a, b) => a.Sort - b.Sort);
           });
           return res;
-        }),
-        tap(res => {
-          this.appStoreService.allCityList(res);
         })
       )
   }
@@ -51,10 +47,7 @@ export class AppService {
             // console.log('open',e.properties.available)
           });
           return res.features.filter(e => e.properties.mask_adult > 0 || e.properties.mask_child > 0);
-        }),
-        tap((res: any) => {
-          this.appStoreService.allPharmacyList(res);
-        }),
+        })
       );
   }
 
@@ -63,10 +56,25 @@ export class AppService {
       .pipe(
         map(res => {
           return res.features;
-        }),
-        tap(res => {
-          this.appStoreService.allGeoList(res);
         })
       );
   }
+
+  locations$ = new Observable((observer) => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position: Position) => {
+        observer.next(position.coords);
+      }, (error: PositionError) => {
+        alert('定位錯誤, 將定位導到台北101');
+        observer.next({
+          latitude: 25.0032999,
+          longitude: 121.5540404,
+          accuracy: null
+        });
+        // observer.error(error);
+      });
+    } else {
+      observer.error('Geolocation not available');
+    }
+  });
 }

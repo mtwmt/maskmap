@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AppService } from '../app.service';
 import { AppStoreService } from '../app-store.service';
-import { map } from 'rxjs/operators';
+import { map, switchMap, filter } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { combineLatest } from 'rxjs';
 
@@ -43,28 +43,28 @@ export class MapComponent implements OnInit {
     public appStoreService: AppStoreService
   ) {
 
-
     combineLatest(
       this.appStoreService.getPharmacy$,
       this.appStoreService.getGeoPolygon$,
       this.appStoreService.location$,
     ).pipe(
-      map(res => {
-        if (!res[0] || !res[1]) { return; }
+      filter(([list, geo, location]) => {
+        return typeof (geo) === 'object';
+      }),
+      map(([list, geo, location]) => {
 
-        const info = res[0].reduce((total, el) => {
+        const info = list.reduce((total, el) => {
           total.push({ ...el.properties, coordinates: el.geometry.coordinates });
           return total;
         }, []);
         return {
           pharmacyPoint: info,
-          geoPolyogn: res[1].localGeo,
-          curCity: [res[1].localCityPos[0].Latitude, res[1].localCityPos[0].Longitude],
-          location: res[2]
+          geoPolyogn: geo.localGeo,
+          curCity: [geo.localCityPos[0].Latitude, geo.localCityPos[0].Longitude],
+          location: location
         }
       })
     ).subscribe(res => {
-      if (!res) { return; }
       this.location = [res.location.latitude, res.location.longitude];
       this.isLocal = res.location.accuracy;
 
@@ -130,7 +130,7 @@ export class MapComponent implements OnInit {
     }
 
   }
-  creatMarker( loacl ){
+  creatMarker(loacl) {
     const marker = L.marker(loacl, { icon: this.icons.grey });
     this.group.addLayer(marker);
   }

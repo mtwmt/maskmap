@@ -11,7 +11,7 @@ export class AppStoreService {
   hoursLimit = [8, 12, 17, 22]; // 上午 下午 晚上分界
   iHour = -1; // hoursLimit idx
 
-
+  distanceRange = 2;
 
   city: string;
   city$: BehaviorSubject<any> = new BehaviorSubject(this.city);
@@ -41,24 +41,6 @@ export class AppStoreService {
 
   constructor() { }
 
-  // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
-  featchUserlocal() {
-    const success = (position) => {
-      this.location = position.coords;
-      this.location$.next(position.coords);
-    }
-    const error = () => {
-      alert('定位錯誤');
-      this.location$.next({
-        latitude: 25.0032999,
-        longitude: 121.5540404,
-        accuracy: null
-      });
-      console.log('location error');
-    };
-    navigator.geolocation.getCurrentPosition(success, error);
-  }
-
   allCityList(ary: Array<any>) {
     this.getCityList = ary;
     this.getCityList$.next(this.getCityList);
@@ -69,11 +51,9 @@ export class AppStoreService {
   }
 
   allPharmacyList(ary?: Array<any>) {
-
     this.getAllPharmacy = ary;
     this.getAllPharmacy$.next(ary);
   }
-
 
   setAreaList(city: string = this.city) {
     this.getAreaList = this.getCityList.filter((e: any) => e.Name === city);
@@ -105,11 +85,16 @@ export class AppStoreService {
     const newList = list.filter(e => {
       return e.geometry.coordinates[2] <= distance;
     });
-
     this.getPharmacy = this.sortPharmacyList(newList);
     this.getPharmacy$.next(this.getPharmacy);
     this.getCurCity(this.getCityList, this.getPharmacy);
 
+    console.log('distance', distance, newList)
+
+    if (!newList.length) {
+      this.distanceRange += 1;
+      this.distancePharmacyList(this.distanceRange);
+    }
   }
 
   setGeoPolygon(city?: string) {

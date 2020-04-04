@@ -7,11 +7,11 @@
     <fa-icon [icon]="faMapMarkedAlt" style="color:#4F4F4F"></fa-icon>
     <p>地圖</p>
   </div>
-  <!-- <div class="tab__icon" (click)="onMaskinfo()">
+  <div class="tab__icon" (click)="onMaskinfo()">
     <figure><img src="{{ assetsUrl }}/mask.svg" /></figure>
     <p>口罩資訊</p>
-  </div> -->
-  <div class="tab__icon" (click)="onNear()" *ngIf="(appStoreService.location$ | async)?.accuracy ">
+  </div>
+  <div class="tab__icon" (click)="onNear()" *ngIf="(appService.locations$ | async)?.accuracy ">
     <fa-icon [icon]="faHome" style="color:#4F4F4F"></fa-icon>
     <p>附近藥局</p>
   </div>

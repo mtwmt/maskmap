@@ -29,6 +29,13 @@ export class MasklistComponent implements OnInit {
   onDistance() {
     this.appStoreService.setDistance();
   }
+  setDistance(e: any) {
+    console.log('setDistance', e)
+    if (e.value < this.appStoreService.distanceRange) {
+      e.value = this.appStoreService.distanceRange;
+    }
+    this.appStoreService.distancePharmacyList(e.value);
+  }
   onChild() {
     this.appStoreService.setChild();
   }

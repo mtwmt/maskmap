@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { faSearch, faInfoCircle, faHome, faList, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { AppStoreService } from '../app-store.service';
 import { SearchComponent } from '../search/search.component';
+import { AppService } from '../app.service';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class TabComponent implements OnInit {
 
 
   constructor(
+    public appService: AppService,
     public appStoreService: AppStoreService,
   ) { }
 
@@ -36,10 +38,10 @@ export class TabComponent implements OnInit {
     this.appStoreService.isSideBar$.next('close');
   }
   onMaskinfo() {
-    alert('施工中 再等等嘿')
+    
   }
   onNear() {
-    this.appStoreService.distancePharmacyList(2);
+    this.appStoreService.distancePharmacyList(this.appStoreService.distanceRange);
     this.appStoreService.isSideBar$.next('open');
   }
 }
