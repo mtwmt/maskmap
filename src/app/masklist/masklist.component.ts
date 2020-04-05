@@ -40,7 +40,6 @@ export class MasklistComponent implements OnInit {
     this.appStoreService.setDistance();
   }
   setDistance(e: any) {
-    console.log('setDistance', e)
     if (e.value < this.appStoreService.distanceRange) {
       e.value = this.appStoreService.distanceRange;
     }
