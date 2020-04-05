@@ -19,6 +19,23 @@ export class AppService {
     private appStoreService: AppStoreService
   ) { }
 
+  locations$ = new Observable((observer) => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position: Position) => {
+        observer.next(position.coords);
+      }, (error: PositionError) => {
+        alert('定位錯誤, 將定位導到台北101');
+        observer.next({
+          latitude: 25.0032999,
+          longitude: 121.5540404,
+          accuracy: null
+        });
+        // observer.error(error);
+      });
+    } else {
+      observer.error('Geolocation not available');
+    }
+  });
 
   fetchTaiwanCity() {
     return this.httpClient.get<any>(`${this.assetsUrl}/counties.json`)
@@ -44,7 +61,7 @@ export class AppService {
               e.properties.address = e.properties.address.replace('臺', '台')
             }
             e.properties.open = this.appStoreService.getOpenTime(e.properties.service_periods);
-            // console.log('open',e.properties.available)
+            // e.properties.buy = this.appStoreService.getbuyWeek();
           });
           return res.features.filter(e => e.properties.mask_adult > 0 || e.properties.mask_child > 0);
         })
@@ -60,21 +77,5 @@ export class AppService {
       );
   }
 
-  locations$ = new Observable((observer) => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position: Position) => {
-        observer.next(position.coords);
-      }, (error: PositionError) => {
-        alert('定位錯誤, 將定位導到台北101');
-        observer.next({
-          latitude: 25.0032999,
-          longitude: 121.5540404,
-          accuracy: null
-        });
-        // observer.error(error);
-      });
-    } else {
-      observer.error('Geolocation not available');
-    }
-  });
+
 }

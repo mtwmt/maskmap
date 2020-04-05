@@ -1,5 +1,20 @@
 
 <div class="info">
-  <div class="info__close">X</div>
-  <p>info works!</p>
+  <div class="info__close" (click)="onClose()">X</div>
+  <div class="info__content">
+    <p class="emask"><a href="https://emask.taiwan.gov.tw/msk/index.jsp" target="_blank">口罩線上預約</a></p>
+    <h4>使用須知</h4>
+    <ol>
+      <li>開啟定位功能才會顯示離你最近的附近藥局哦</li>
+      <li>點擊藥局可觀看更詳細資訊</li>
+      <li>無販售口罩 或 已售完的藥局不會顯示在列表與地圖上</li>
+      <li>線上查詢數量僅供參考，實際數量以藥局為主</li>
+      <li>若您的藥局有需要加註的公告事項，可以填寫<a href="https://pse.is/KH7DC" target="_blank">此表單</a></li>
+      <li>填寫的資料會不定期匯出到<a href="https://pse.is/QDSMW" target="_blank">這裡</a></li>
+    </ol>
+  </div>
+  <div class="info__footer">
+    <p>防疫專線 1922 ｜ 口罩資訊 1919</p>
+    <p>口罩地圖 By <a href="https://github.com/mtwmt" target="_blank">Mandy</a> 創作</p>
+  </div>
 </div>

@@ -34,11 +34,14 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    .date {
+      font-weight: bold;
+      color: #159;
+    }
     input {
       width: 2.5rem;
       padding: 0 rem(2px);
-      // height: rem(50px);
-      // font-size: rem(16px);
+      text-align: center;
       font-family: "Hiragino Sans CNS", "微軟正黑體", "Arial";
       border-radius: rem(4px);
       border: rem(1px) solid #4f4f4f;

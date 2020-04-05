@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppStoreService } from '../app-store.service';
 
 @Component({
   selector: 'app-info',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InfoComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public appStoreService: AppStoreService,
+  ) { }
 
   ngOnInit() {
   }
-
+  onClose(){
+    this.appStoreService.isInfo$.next('close');
+  }
 }

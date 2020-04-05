@@ -11,7 +11,6 @@ import { MasklistComponent } from './masklist/masklist.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { TabComponent } from './tab/tab.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 import { PharmacyComponent } from './pharmacy/pharmacy.component';
 import { SelectAreaComponent } from './select-area/select-area.component';
 import { InfoComponent } from './info/info.component';
@@ -26,7 +25,6 @@ import { InfoComponent } from './info/info.component';
     MasklistComponent,
     SpinnerComponent,
     TabComponent,
-    SidebarComponent,
     PharmacyComponent,
     SelectAreaComponent,
     InfoComponent

@@ -3,6 +3,7 @@
     <app-spinner></app-spinner>
   </div>
   <div class="pharmacy__sort">
+    <span class="date">{{ buyStr[buyDate] }} 購買日</span>
     <span
       (click)="onDistance()"
       *ngIf="(appStoreService.location$ | async)?.accuracy"
@@ -13,10 +14,10 @@
         [value]="appStoreService.distanceRange"
         (blur)="setDistance($event.target)"
       />
-      km
+      km 附近藥局
     </span>
-    <span (click)="onChild()">兒童</span>
-    <span (click)="onAdult()">成人</span>
+    <!-- <span (click)="onChild()">兒童</span>
+    <span (click)="onAdult()">成人</span> -->
   </div>
   <div
     class="pharmacy__wrap"
