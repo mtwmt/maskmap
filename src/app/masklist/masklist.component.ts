@@ -34,7 +34,7 @@ export class MasklistComponent implements OnInit {
   }
   setInfo(pos: any, info: any) {
     this.appStoreService.setPharmacyInfo(pos, info);
-    this.appStoreService.isList$.next('close');
+    this.appStoreService.clsList$.next('close');
   }
   onDistance() {
     this.appStoreService.setDistance();

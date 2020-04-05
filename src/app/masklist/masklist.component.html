@@ -6,7 +6,10 @@
     <span class="date">{{ buyStr[buyDate] }} 購買日</span>
     <span
       (click)="onDistance()"
-      *ngIf="(appStoreService.location$ | async)?.accuracy"
+      *ngIf="
+        (appStoreService.location$ | async)?.accuracy &&
+        (appStoreService.isNear$ | async)
+      "
     >
       距離
       <input
@@ -16,8 +19,15 @@
       />
       km 附近藥局
     </span>
-    <!-- <span (click)="onChild()">兒童</span>
-    <span (click)="onAdult()">成人</span> -->
+    <span
+      *ngIf="!(appStoreService.isNear$ | async)"
+      (click)="onChild()"
+    >兒童</span>
+    <span
+      *ngIf="!(appStoreService.isNear$ | async)"
+      (click)="onAdult()"
+    >成人</span
+    >
   </div>
   <div
     class="pharmacy__wrap"

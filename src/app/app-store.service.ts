@@ -32,10 +32,13 @@ export class AppStoreService {
 
   getCurInfo$: Subject<any> = new Subject();
 
-  isList = 'close';
-  isList$: BehaviorSubject<any> = new BehaviorSubject(this.isList);
-  isInfo = 'open';
-  isInfo$: BehaviorSubject<any> = new BehaviorSubject(this.isInfo);
+  clsList = 'close';
+  clsList$: BehaviorSubject<any> = new BehaviorSubject(this.clsList);
+  clsInfo = 'open';
+  clsInfo$: BehaviorSubject<any> = new BehaviorSubject(this.clsInfo);
+
+  isNear = true;
+  isNear$: BehaviorSubject<any> = new BehaviorSubject(this.isNear);
 
   location: any;
   location$: Subject<any> = new Subject();

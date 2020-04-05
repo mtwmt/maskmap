@@ -15,6 +15,6 @@ export class InfoComponent implements OnInit {
   ngOnInit() {
   }
   onClose(){
-    this.appStoreService.isInfo$.next('close');
+    this.appStoreService.clsInfo$.next('close');
   }
 }

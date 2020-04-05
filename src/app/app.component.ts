@@ -39,15 +39,18 @@ export class AppComponent {
 
       if (local.accuracy) {
         this.appStoreService.distancePharmacyList(this.appStoreService.distanceRange, list);
-        this.appStoreService.isList$.next('open');
+        this.appStoreService.isNear$.next(true);
+        this.appStoreService.clsList$.next('open');
       } else {
         this.appStoreService.city$.next('台北市');
         this.appStoreService.setPharmacyList('台北市');
+        this.appStoreService.isNear$.next(false);
       }
     });
 
     timer(8000).subscribe(res => {
-      this.appStoreService.isInfo$.next('close');
+
+      this.appStoreService.clsInfo$.next('close');
     });
   }
 

@@ -22,13 +22,13 @@ export class SelectAreaComponent implements OnInit {
     });
   }
   dragStarted( e ){
-    this.appStoreService.isList$.next('open');
+    this.appStoreService.clsList$.next('open');
   }
   onCityChange(city: string) {
     this.city = city;
     this.appStoreService.city$.next(city);
     this.appStoreService.setPharmacyList(city);
-    this.appStoreService.isList$.next('open');
+    this.appStoreService.clsList$.next('open');
   }
   onAreaChange(districts?: string) {
     if (districts === '全區') {
@@ -37,6 +37,6 @@ export class SelectAreaComponent implements OnInit {
       this.area = districts;
     }
     this.appStoreService.setPharmacyList(this.city, this.area);
-    this.appStoreService.isList$.next('open');
+    this.appStoreService.clsList$.next('open');
   }
 }
