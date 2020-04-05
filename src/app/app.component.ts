@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { AppStoreService } from './app-store.service';
 import { AppService } from './app.service';
-import { combineLatest, Observable, interval, concat, forkJoin, of, timer } from 'rxjs';
-import { map, take, switchMap } from 'rxjs/operators';
+import { combineLatest, timer, interval } from 'rxjs';
+import { map, take, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -39,13 +39,16 @@ export class AppComponent {
 
       if (local.accuracy) {
         this.appStoreService.distancePharmacyList(this.appStoreService.distanceRange, list);
-        this.appStoreService.isSideBar$.next('open');
+        this.appStoreService.isList$.next('open');
       } else {
         this.appStoreService.city$.next('台北市');
         this.appStoreService.setPharmacyList('台北市');
       }
-    })
-   
+    });
+
+    timer(8000).subscribe(res => {
+      this.appStoreService.isInfo$.next('close');
+    });
   }
 
 }

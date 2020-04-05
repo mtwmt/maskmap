@@ -43,7 +43,7 @@ export class SearchComponent implements OnInit {
       if (filterList.length > 0) {
         console.log('filterList', filterList)
         this.appStoreService.getPharmacy$.next(filterList);
-        this.appStoreService.isSideBar$.next('open');
+        this.appStoreService.isList$.next('open');
       } else {
         alert('查無藥局');
       }

@@ -14,6 +14,9 @@ export class MasklistComponent implements OnInit {
 
   openClass = ['opening', 'comingsoon', 'close'];
   openStr = ['營業中', '即將休息', '休息中'];
+  weekDay = new Date().getDay();
+  buyDate: number;
+  buyStr= ['單號', '雙號', '不限制'];
 
   constructor(
     public appService: AppService,
@@ -21,10 +24,17 @@ export class MasklistComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (this.weekDay === 0) {
+      this.buyDate = 2;
+    } else if (this.weekDay % 2 === 1) {
+      this.buyDate = 1;
+    } else if (this.weekDay % 2 === 0) {
+      this.buyDate = 0;
+    }
   }
   setInfo(pos: any, info: any) {
     this.appStoreService.setPharmacyInfo(pos, info);
-    this.appStoreService.isSideBar$.next('close');
+    this.appStoreService.isList$.next('close');
   }
   onDistance() {
     this.appStoreService.setDistance();

@@ -16,8 +16,6 @@
   transition: 0.5s;
   @media (min-width: 800px) {
     app-map{
-      // position: absolute;
-      // right: 0;
       float: right;
       width: calc(100% - 320px);
       height: 100%;

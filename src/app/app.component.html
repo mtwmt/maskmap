@@ -1,9 +1,11 @@
 <div class="maskmap">
   <app-map></app-map>
   <app-pharmacy
-    [ngClass]=" 'maskmap--' + (appStoreService.isSideBar$ | async)"
+    [ngClass]=" 'maskmap--' + (appStoreService.isList$ | async)"
   ></app-pharmacy>
+  <app-info
+    [ngClass]=" 'info--' + (appStoreService.isInfo$ | async)"
+  ></app-info>
   <app-search></app-search>
   <app-tab></app-tab>
-  <app-info></app-info>
 </div>

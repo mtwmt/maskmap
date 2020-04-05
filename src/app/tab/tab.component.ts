@@ -32,16 +32,19 @@ export class TabComponent implements OnInit {
     // this.appStoreService.setSideBar();
   }
   onList() {
-    this.appStoreService.isSideBar$.next('active');
+    this.appStoreService.isList$.next('active');
+    this.appStoreService.isInfo$.next('close');
   }
   onMap() {
-    this.appStoreService.isSideBar$.next('close');
+    this.appStoreService.isList$.next('close');
+    this.appStoreService.isInfo$.next('close');
   }
   onMaskinfo() {
-    
+    this.appStoreService.isInfo$.next('open');
   }
   onNear() {
     this.appStoreService.distancePharmacyList(this.appStoreService.distanceRange);
-    this.appStoreService.isSideBar$.next('open');
+    this.appStoreService.isList$.next('open');
+    this.appStoreService.isInfo$.next('close');
   }
 }

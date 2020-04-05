@@ -7,7 +7,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 export class AppStoreService {
 
   nowHour = new Date().getHours();
-  getWeeklyDay = new Date().getDay(); // 得到星期幾
+  getWeekDay = new Date().getDay(); // 得到星期幾
   hoursLimit = [8, 12, 17, 22]; // 上午 下午 晚上分界
   iHour = -1; // hoursLimit idx
 
@@ -31,10 +31,11 @@ export class AppStoreService {
   getPharmacy$: Subject<any> = new Subject();
 
   getCurInfo$: Subject<any> = new Subject();
-  // getCalMask$: Subject<any> = new Subject();
 
-  isSideBar = 'close';
-  isSideBar$: BehaviorSubject<any> = new BehaviorSubject(this.isSideBar);
+  isList = 'close';
+  isList$: BehaviorSubject<any> = new BehaviorSubject(this.isList);
+  isInfo = 'open';
+  isInfo$: BehaviorSubject<any> = new BehaviorSubject(this.isInfo);
 
   location: any;
   location$: Subject<any> = new Subject();
@@ -91,7 +92,7 @@ export class AppStoreService {
 
     console.log('distance', distance, newList)
 
-    if (!newList.length) {
+    if (!newList.length || newList.length < 10) {
       this.distanceRange += 1;
       this.distancePharmacyList(this.distanceRange);
     }
@@ -190,11 +191,10 @@ export class AppStoreService {
       }
     }
   }
-  getOpenTime(time) {
+
+  getOpenTime(time: any) {
     this.getIHour();
-
-
-    const openTimeIdx = this.getWeeklyDay - 1 + this.iHour * 7;
+    const openTimeIdx = this.getWeekDay - 1 + this.iHour * 7;
     const openTime_now = time[openTimeIdx];
     const openTime_nextH = time[openTimeIdx + 1];
 
