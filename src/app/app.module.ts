@@ -14,6 +14,7 @@ import { TabComponent } from './tab/tab.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { PharmacyComponent } from './pharmacy/pharmacy.component';
 import { SelectAreaComponent } from './select-area/select-area.component';
+import { InfoComponent } from './info/info.component';
 
 // import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
@@ -27,7 +28,8 @@ import { SelectAreaComponent } from './select-area/select-area.component';
     TabComponent,
     SidebarComponent,
     PharmacyComponent,
-    SelectAreaComponent
+    SelectAreaComponent,
+    InfoComponent
   ],
   imports: [
     BrowserModule,
